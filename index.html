@@ -1,825 +1,1650 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Cholelithiasis Lipid Study - Data Collection</title>
-<style>
-  * { box-sizing: border-box; margin: 0; padding: 0; }
-  :root {
-    --primary: #1565c0; --primary-dark: #0d47a1; --accent: #00acc1;
-    --danger: #c62828; --success: #2e7d32; --warning: #f9a825;
-    --bg: #f0f2f5; --card: #ffffff; --text: #212121; --border: #e0e0e0;
-    --shadow: 0 2px 8px rgba(0,0,0,0.08); --shadow-lg: 0 8px 32px rgba(0,0,0,0.12);
-  }
-  body {
-    font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
-    background: var(--bg); color: var(--text); line-height: 1.6;
-    min-height: 100vh;
-  }
-  .container { max-width: 900px; margin: 0 auto; padding: 20px; }
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cholelithiasis Lipid Study — Research Platform</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Segoe UI', system-ui, -apple-system, sans-serif; background: #f0f2f5; color: #212121; line-height: 1.6; }
+        .container { max-width: 1200px; margin: 0 auto; padding: 20px; }
 
-  .header {
-    background: linear-gradient(135deg, var(--primary), var(--accent));
-    color: white; padding: 30px 20px; text-align: center;
-    border-radius: 0 0 20px 20px; margin-bottom: 25px;
-    box-shadow: var(--shadow-lg);
-  }
-  .header h1 { font-size: 1.5rem; font-weight: 600; margin-bottom: 5px; }
-  .header p { opacity: 0.9; font-size: 0.9rem; }
-  .badge {
-    display: inline-block; padding: 4px 12px; border-radius: 20px;
-    font-size: 0.7rem; font-weight: 600; text-transform: uppercase;
-    margin-top: 10px; background: rgba(255,255,255,0.2);
-  }
+        header { background: linear-gradient(135deg, #1565c0, #00acc1); color: white; padding: 30px 20px; text-align: center; border-radius: 0 0 20px 20px; margin-bottom: 25px; box-shadow: 0 8px 32px rgba(0,0,0,0.12); }
+        header h1 { font-size: 1.6rem; font-weight: 600; margin-bottom: 5px; }
+        header p { opacity: 0.9; font-size: 0.95rem; }
 
-  /* Progress */
-  .progress-bar {
-    height: 6px; background: #e0e0e0; border-radius: 3px; overflow: hidden;
-    margin: 16px 0;
-  }
-  .progress-fill {
-    height: 100%; background: linear-gradient(90deg, var(--primary), var(--accent));
-    border-radius: 3px; transition: width 0.3s;
-  }
+        .login-box { background: white; max-width: 480px; margin: 40px auto; padding: 35px; border-radius: 16px; box-shadow: 0 4px 20px rgba(0,0,0,0.08); text-align: center; }
+        .login-box h2 { color: #1565c0; margin-bottom: 10px; }
+        .role-select { display: flex; gap: 15px; margin: 25px 0; justify-content: center; }
+        .role-btn { flex: 1; padding: 18px 15px; border: 2px solid #e0e0e0; border-radius: 12px; cursor: pointer; transition: all 0.3s; background: white; }
+        .role-btn:hover, .role-btn.active { border-color: #1565c0; background: #e3f2fd; }
+        .role-btn span { font-size: 2rem; display: block; margin-bottom: 8px; }
 
-  .card {
-    background: var(--card); border-radius: 16px; padding: 24px;
-    box-shadow: var(--shadow); margin-bottom: 20px;
-    border: 1px solid var(--border);
-  }
-  .card-title {
-    font-size: 1.1rem; font-weight: 600; color: var(--primary);
-    margin-bottom: 18px; padding-bottom: 12px;
-    border-bottom: 2px solid #e3f2fd; display: flex; align-items: center; gap: 10px;
-  }
-  .card-title .icon { font-size: 1.3rem; }
+        .card, .panel { background: white; border-radius: 16px; padding: 24px; box-shadow: 0 2px 8px rgba(0,0,0,0.06); margin-bottom: 20px; border: 1px solid #e0e0e0; }
+        .card-title { font-size: 1.1rem; font-weight: 600; color: #1565c0; margin-bottom: 18px; padding-bottom: 12px; border-bottom: 2px solid #e3f2fd; display: flex; align-items: center; gap: 10px; }
+        .card-title .icon { font-size: 1.3rem; }
 
-  .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 16px; }
-  @media (max-width: 600px) { .form-row { grid-template-columns: 1fr; } }
+        .form-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 16px; }
+        .form-group { margin-bottom: 4px; }
+        .form-group label { display: block; font-size: 0.85rem; font-weight: 600; color: #555; margin-bottom: 6px; }
+        .form-group label .required { color: #c62828; }
+        input, select, textarea { width: 100%; padding: 12px 14px; border: 2px solid #e0e0e0; border-radius: 10px; font-size: 0.95rem; transition: all 0.2s; background: #fafafa; }
+        input:focus, select:focus, textarea:focus { outline: none; border-color: #1565c0; background: white; box-shadow: 0 0 0 3px rgba(21,101,192,0.1); }
+        input:read-only { background: #e8eaf6; color: #555; }
+        textarea { min-height: 80px; resize: vertical; }
+        small { display: block; margin-top: 4px; color: #888; font-size: 0.8rem; }
 
-  .field { margin-bottom: 16px; }
-  .field label {
-    display: block; font-size: 0.85rem; font-weight: 500; color: #555;
-    margin-bottom: 6px;
-  }
-  .field label .req { color: var(--danger); }
-  .field input, .field select, .field textarea {
-    width: 100%; padding: 12px 14px; border: 2px solid var(--border);
-    border-radius: 10px; font-size: 0.95rem; transition: all 0.2s;
-    background: #fafafa;
-  }
-  .field input:focus, .field select:focus, .field textarea:focus {
-    outline: none; border-color: var(--primary); background: white;
-    box-shadow: 0 0 0 3px rgba(21,101,192,0.1);
-  }
-  .field input:read-only { background: #e8eaf6; color: #555; }
-  .field small { display: block; margin-top: 4px; color: #888; font-size: 0.8rem; }
+        .btn { padding: 12px 24px; border: none; border-radius: 10px; cursor: pointer; font-size: 1rem; font-weight: 600; transition: all 0.2s; display: inline-flex; align-items: center; gap: 8px; }
+        .btn-primary { background: #1565c0; color: white; }
+        .btn-primary:hover { background: #0d47a1; transform: translateY(-1px); }
+        .btn-success { background: #2e7d32; color: white; }
+        .btn-success:hover { background: #1b5e20; }
+        .btn-danger { background: #c62828; color: white; }
+        .btn-danger:hover { background: #b71c1c; }
+        .btn-secondary { background: #757575; color: white; }
+        .btn-secondary:hover { background: #616161; }
+        .btn-warning { background: #f9a825; color: white; }
+        .btn-outline { background: transparent; border: 2px solid #1565c0; color: #1565c0; }
+        .btn-block { width: 100%; justify-content: center; }
+        .btn:disabled { opacity: 0.6; cursor: not-allowed; }
+        .btn-group { display: flex; gap: 10px; flex-wrap: wrap; margin: 15px 0; }
 
-  .checkbox-group {
-    display: grid; grid-template-columns: 1fr 1fr; gap: 10px;
-  }
-  .checkbox-item {
-    display: flex; align-items: center; gap: 10px;
-    padding: 10px 14px; border: 2px solid var(--border); border-radius: 10px;
-    cursor: pointer; transition: all 0.2s; background: #fafafa;
-  }
-  .checkbox-item:hover { border-color: var(--primary); background: #e3f2fd; }
-  .checkbox-item input { width: auto; accent-color: var(--primary); }
-  .checkbox-item.checked { border-color: var(--primary); background: #e3f2fd; }
+        .checkbox-group { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+        @media (max-width: 600px) { .checkbox-group { grid-template-columns: 1fr; } }
+        .checkbox-item { display: flex; align-items: center; gap: 10px; padding: 10px 14px; border: 2px solid #e0e0e0; border-radius: 10px; cursor: pointer; transition: all 0.2s; background: #fafafa; }
+        .checkbox-item:hover { border-color: #1565c0; background: #e3f2fd; }
+        .checkbox-item input { width: auto; accent-color: #1565c0; }
+        .checkbox-item.checked { border-color: #1565c0; background: #e3f2fd; }
 
-  .btn {
-    padding: 14px 28px; border: none; border-radius: 10px;
-    font-size: 1rem; font-weight: 600; cursor: pointer;
-    transition: all 0.2s; display: inline-flex; align-items: center; gap: 8px;
-  }
-  .btn-primary { background: var(--primary); color: white; }
-  .btn-primary:hover { background: var(--primary-dark); transform: translateY(-1px); }
-  .btn-block { width: 100%; justify-content: center; }
-  .btn:disabled { opacity: 0.6; cursor: not-allowed; }
+        .alert { padding: 14px 18px; border-radius: 10px; margin-bottom: 20px; display: flex; align-items: center; gap: 12px; font-size: 0.9rem; }
+        .alert-success { background: #e8f5e9; color: #2e7d32; border: 1px solid #c8e6c9; }
+        .alert-error { background: #ffebee; color: #c62828; border: 1px solid #ffcdd2; }
+        .alert-info { background: #e3f2fd; color: #1565c0; border: 1px solid #bbdefb; }
+        .alert-warning { background: #fff8e1; color: #f57f17; border: 1px solid #ffecb3; }
 
-  .alert {
-    padding: 14px 18px; border-radius: 10px; margin-bottom: 20px;
-    display: flex; align-items: center; gap: 12px; font-size: 0.9rem;
-  }
-  .alert-success { background: #e8f5e9; color: var(--success); border: 1px solid #c8e6c9; }
-  .alert-error { background: #ffebee; color: var(--danger); border: 1px solid #ffcdd2; }
-  .alert-info { background: #e3f2fd; color: var(--primary); border: 1px solid #bbdefb; }
-  .alert-warning { background: #fff8e1; color: #f57f17; border: 1px solid #ffecb3; }
+        table { width: 100%; border-collapse: collapse; background: white; border-radius: 10px; overflow: hidden; box-shadow: 0 2px 8px rgba(0,0,0,0.06); }
+        th, td { padding: 12px; text-align: left; border-bottom: 1px solid #e0e0e0; font-size: 0.9rem; }
+        th { background: #1565c0; color: white; font-weight: 600; }
+        tr:hover { background: #f5f5f5; }
 
-  .footer {
-    text-align: center; padding: 20px; color: #888; font-size: 0.8rem;
-  }
+        .tabs { display: flex; gap: 5px; margin-bottom: 20px; border-bottom: 2px solid #e0e0e0; flex-wrap: wrap; }
+        .tab { padding: 12px 20px; cursor: pointer; border-bottom: 2px solid transparent; margin-bottom: -2px; font-weight: 600; color: #757575; transition: all 0.2s; }
+        .tab.active { color: #1565c0; border-bottom-color: #1565c0; }
+        .tab-content { display: none; }
+        .tab-content.active { display: block; }
 
-  .hidden { display: none !important; }
+        .stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 15px; margin-bottom: 25px; }
+        .stat-card { background: white; padding: 20px; border-radius: 12px; box-shadow: 0 2px 8px rgba(0,0,0,0.06); border-left: 4px solid #1565c0; }
+        .stat-card h3 { font-size: 1.8rem; color: #1565c0; }
+        .stat-card p { color: #757575; font-size: 0.9rem; }
 
-  @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
-  .fade-in { animation: fadeIn 0.3s ease-out; }
+        .modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: 1000; justify-content: center; align-items: center; }
+        .modal.active { display: flex; }
+        .modal-content { background: white; padding: 30px; border-radius: 16px; max-width: 700px; width: 90%; max-height: 85vh; overflow-y: auto; box-shadow: 0 20px 60px rgba(0,0,0,0.2); }
+        .modal-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; border-bottom: 2px solid #e3f2fd; padding-bottom: 12px; }
+        .close-btn { background: none; border: none; font-size: 1.8rem; cursor: pointer; color: #757575; line-height: 1; }
 
-  /* Admin key input modal */
-  .modal-overlay {
-    position: fixed; top: 0; left: 0; right: 0; bottom: 0;
-    background: rgba(0,0,0,0.6); display: none; align-items: center;
-    justify-content: center; z-index: 1000; padding: 20px;
-  }
-  .modal-overlay.active { display: flex; }
-  .modal {
-    background: white; border-radius: 16px; padding: 28px;
-    max-width: 500px; width: 100%; box-shadow: var(--shadow-lg);
-  }
-  .modal h2 { margin-bottom: 16px; color: var(--primary); }
-  .modal input {
-    width: 100%; padding: 14px; border: 2px solid var(--border);
-    border-radius: 10px; font-size: 1rem; margin-bottom: 16px;
-  }
-  .modal input:focus { outline: none; border-color: var(--primary); }
-</style>
+        .sync-status { display: inline-flex; align-items: center; gap: 6px; padding: 6px 14px; border-radius: 20px; font-size: 0.85rem; font-weight: 600; }
+        .status-synced { background: #e8f5e9; color: #2e7d32; }
+        .status-local { background: #ffebee; color: #c62828; }
+        .status-pending { background: #fff8e1; color: #f57f17; }
+
+        .drive-section { background: #e8f5e9; border: 2px solid #c8e6c9; border-radius: 12px; padding: 20px; margin-bottom: 20px; }
+        .drive-section h3 { color: #2e7d32; margin-bottom: 10px; }
+
+        .progress-bar { width: 100%; height: 8px; background: #e0e0e0; border-radius: 4px; overflow: hidden; margin: 10px 0; }
+        .progress-fill { height: 100%; background: linear-gradient(90deg, #1565c0, #00acc1); transition: width 0.3s; width: 0%; }
+
+        .share-box { background: #e8f5e9; border: 2px dashed #a5d6a7; border-radius: 12px; padding: 20px; text-align: center; margin: 15px 0; }
+        .share-url { background: white; padding: 12px; border-radius: 8px; font-family: monospace; font-size: 0.85rem; word-break: break-all; border: 1px solid #c8e6c9; color: #2e7d32; }
+
+        .hidden { display: none !important; }
+        .badge { padding: 4px 10px; border-radius: 20px; font-size: 0.75rem; font-weight: 600; display: inline-block; }
+        .badge-blue { background: #e3f2fd; color: #1565c0; }
+        .badge-green { background: #e8f5e9; color: #2e7d32; }
+        .badge-red { background: #ffebee; color: #c62828; }
+        .badge-orange { background: #fff8e1; color: #f57f17; }
+
+        .key-input { font-family: 'Courier New', monospace; letter-spacing: 2px; }
+
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+        .fade-in { animation: fadeIn 0.3s ease-out; }
+
+        @media (max-width: 768px) { 
+            .form-grid { grid-template-columns: 1fr; } 
+            .stats-grid { grid-template-columns: 1fr 1fr; } 
+            .btn-group { flex-direction: column; } 
+            .role-select { flex-direction: column; }
+            header h1 { font-size: 1.3rem; }
+        }
+    </style>
 </head>
 <body>
+    <div class="container">
+        <!-- ==================== LOGIN SCREEN ==================== -->
+        <div id="loginScreen">
+            <div class="login-box">
+                <h2>🔬 Cholelithiasis Lipid Study</h2>
+                <p style="margin-bottom: 20px; color: #757575;">Secure Research Data Platform</p>
 
-<div class="header">
-  <h1>🔬 Cholelithiasis Lipid Study</h1>
-  <p>Secure Data Collection Form</p>
-  <span class="badge">🔒 End-to-End Encrypted</span>
-</div>
+                <div class="role-select">
+                    <div class="role-btn active" onclick="selectRole('investigator')" id="btnInvestigator">
+                        <span>👨‍⚕️</span>
+                        <div><strong>Investigator</strong></div>
+                        <small style="color: #757575;">Full Access & Analytics</small>
+                    </div>
+                    <div class="role-btn" onclick="selectRole('surveyor')" id="btnSurveyor">
+                        <span>📝</span>
+                        <div><strong>Surveyor</strong></div>
+                        <small style="color: #757575;">Data Entry Only</small>
+                    </div>
+                </div>
 
-<div class="container">
+                <div id="investigatorLogin">
+                    <input type="password" id="investigatorKey" class="key-input" placeholder="Enter your encryption key" style="margin-bottom: 10px;">
+                    <p style="font-size: 0.8rem; color: #757575; margin-bottom: 15px;">This key decrypts all study data. Never share it with surveyors.</p>
+                    <button class="btn btn-primary btn-block" onclick="investigatorLogin()">Enter as Investigator</button>
+                </div>
 
-  <!-- Info for collectors -->
-  <div class="alert alert-info">
-    <span>ℹ️</span>
-    <div>
-      <strong>Data Collector Instructions:</strong> Fill all required fields (*). 
-      Your data is automatically encrypted before transmission. 
-      Contact your study administrator if you encounter issues.
+                <div id="surveyorLogin" class="hidden">
+                    <div class="alert alert-info" style="text-align: left; margin-bottom: 15px;">
+                        <strong>No password needed!</strong><br>
+                        You can directly add patient entries. Data will be encrypted automatically.
+                    </div>
+                    <button class="btn btn-success btn-block" onclick="surveyorLogin()">Enter as Surveyor</button>
+                    <p style="font-size: 0.8rem; color: #757575; margin-top: 10px;">Data is encrypted before storage. You cannot view previous entries.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- ==================== SURVEYOR INTERFACE ==================== -->
+        <div id="surveyorApp" class="hidden">
+            <header>
+                <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px;">
+                    <div>
+                        <h1>🔬 Cholelithiasis Study — Data Entry</h1>
+                        <p>Secure patient data collection</p>
+                    </div>
+                    <div style="display: flex; gap: 10px; align-items: center;">
+                        <span class="badge badge-blue">📝 Surveyor</span>
+                        <button class="btn btn-secondary" onclick="logout()" style="padding: 8px 16px; font-size: 0.85rem;">Logout</button>
+                    </div>
+                </div>
+            </header>
+
+            <div class="panel">
+                <div class="alert alert-success">
+                    <strong>✅ Ready to collect data</strong><br>
+                    All entries are automatically encrypted. The investigator will decrypt them for analysis.
+                </div>
+
+                <form id="surveyorForm" onsubmit="event.preventDefault(); surveyorSubmit(false);">
+                    <div class="card fade-in">
+                        <div class="card-title"><span class="icon">👤</span> Demographics</div>
+                        <div class="form-grid">
+                            <div class="form-group">
+                                <label>Study ID <span class="required">*</span></label>
+                                <input type="text" id="sv_study_id" placeholder="e.g., CLS-001" required>
+                            </div>
+                            <div class="form-group">
+                                <label>Patient Name <span class="required">*</span></label>
+                                <input type="text" id="sv_patient_name" placeholder="Full name" required>
+                            </div>
+                            <div class="form-group">
+                                <label>Collection Date <span class="required">*</span></label>
+                                <input type="date" id="sv_collection_date" required>
+                            </div>
+                            <div class="form-group">
+                                <label>Collector Initials</label>
+                                <input type="text" id="sv_collector_initials" placeholder="e.g., JD" maxlength="4">
+                            </div>
+                            <div class="form-group">
+                                <label>Age (years) <span class="required">*</span></label>
+                                <input type="number" id="sv_age_years" min="18" max="120" placeholder="18-120" required>
+                            </div>
+                            <div class="form-group">
+                                <label>Sex <span class="required">*</span></label>
+                                <select id="sv_sex" required>
+                                    <option value="">Select...</option>
+                                    <option value="male">Male</option>
+                                    <option value="female">Female</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label>Parity (if female)</label>
+                                <input type="number" id="sv_parity" min="0" max="20" placeholder="Number of births">
+                            </div>
+                            <div class="form-group">
+                                <label>OCP Use</label>
+                                <select id="sv_ocp_use">
+                                    <option value="">Select...</option>
+                                    <option value="never">Never</option>
+                                    <option value="current">Current</option>
+                                    <option value="past">Past (&gt;3 months ago)</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label>Height (cm) <span class="required">*</span></label>
+                                <input type="number" id="sv_height_cm" min="100" max="250" step="0.1" placeholder="cm" required oninput="sv_calcBMI()">
+                            </div>
+                            <div class="form-group">
+                                <label>Weight (kg) <span class="required">*</span></label>
+                                <input type="number" id="sv_weight_kg" min="20" max="300" step="0.1" placeholder="kg" required oninput="sv_calcBMI()">
+                            </div>
+                            <div class="form-group">
+                                <label>BMI (auto-calculated)</label>
+                                <input type="text" id="sv_bmi_display" readonly placeholder="Will calculate automatically">
+                            </div>
+                            <div class="form-group">
+                                <label>Waist Circumference (cm)</label>
+                                <input type="number" id="sv_waist_cm" min="40" max="200" step="0.1" placeholder="cm">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card fade-in">
+                        <div class="card-title"><span class="icon">🌍</span> Ethnicity & Language</div>
+                        <div class="form-group">
+                            <label>Ethnicity / Language <span class="required">*</span></label>
+                            <div class="checkbox-group" id="sv_ethnicity_flags">
+                                <label class="checkbox-item"><input type="checkbox" value="bengali"> Bengali</label>
+                                <label class="checkbox-item"><input type="checkbox" value="telegu"> Telegu</label>
+                                <label class="checkbox-item"><input type="checkbox" value="malayalam"> Malayalam</label>
+                                <label class="checkbox-item"><input type="checkbox" value="tamil"> Tamil</label>
+                                <label class="checkbox-item"><input type="checkbox" value="nicobari"> Nicobari</label>
+                                <label class="checkbox-item"><input type="checkbox" value="other" id="sv_ethnicity_other_checkbox" onchange="sv_toggleOtherEthnicity()"> Other</label>
+                            </div>
+                        </div>
+                        <div class="form-group" id="sv_ethnicity_other_field" style="display:none;">
+                            <label>Other Ethnicity / Language (specify)</label>
+                            <input type="text" id="sv_ethnicity_other_text" placeholder="Specify other ethnicity/language">
+                        </div>
+                    </div>
+
+                    <div class="card fade-in">
+                        <div class="card-title"><span class="icon">🥗</span> Diet</div>
+                        <div class="form-group">
+                            <label>Times peas / chatpati eaten per week <span class="required">*</span></label>
+                            <select id="sv_diet_peas_chatpati" required>
+                                <option value="">Select...</option>
+                                <option value="lt_4">&lt; 4</option>
+                                <option value="4_10">4-10</option>
+                                <option value="10_20">10-20</option>
+                                <option value="gt_20">&gt; 20</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="card fade-in">
+                        <div class="card-title"><span class="icon">🏥</span> Clinical History</div>
+                        <div class="form-grid">
+                            <div class="form-group">
+                                <label>Diabetes Mellitus</label>
+                                <select id="sv_dm_status"><option value="">Select...</option><option value="yes">Yes</option><option value="no">No</option></select>
+                            </div>
+                            <div class="form-group">
+                                <label>HbA1c (%)</label>
+                                <input type="number" id="sv_hba1c" min="3" max="20" step="0.1" placeholder="%"><small>Leave blank if no DM</small>
+                            </div>
+                            <div class="form-group">
+                                <label>Hypertension</label>
+                                <select id="sv_htn_status"><option value="">Select...</option><option value="yes">Yes</option><option value="no">No</option></select>
+                            </div>
+                            <div class="form-group">
+                                <label>Smoking</label>
+                                <select id="sv_smoking"><option value="">Select...</option><option value="yes">Yes</option><option value="no">No</option><option value="former">Former</option></select>
+                            </div>
+                            <div class="form-group">
+                                <label>Pack-Years (if smoker)</label>
+                                <input type="number" id="sv_pack_years" min="0" max="200" step="0.1" placeholder="pack-years">
+                            </div>
+                            <div class="form-group">
+                                <label>Rapid Weight Loss</label>
+                                <select id="sv_rapid_weight_loss"><option value="">Select...</option><option value="yes">Yes</option><option value="no">No</option></select>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label>RWL Cause (if applicable)</label>
+                            <input type="text" id="sv_rwl_cause" placeholder="e.g., Bariatric surgery, Crash diet">
+                        </div>
+                        <div class="form-group">
+                            <label>Family Hx Gallstones</label>
+                            <select id="sv_fam_hx_gallstones"><option value="">Select...</option><option value="yes">Yes</option><option value="no">No</option></select>
+                        </div>
+                        <div style="background:#fff3e0;border:1px solid #ffe0b2;border-radius:12px;padding:16px;margin-top:12px;">
+                            <div class="card-title" style="color:#e65100;border-color:#ffe0b2;margin-top:0;"><span class="icon">⚠️</span> Exclusion Criteria</div>
+                            <p style="font-size:0.9rem;color:#bf360c;margin-bottom:12px;">Check all that apply (patient will be flagged):</p>
+                            <div class="checkbox-group" id="sv_exclusion_flags">
+                                <label class="checkbox-item"><input type="checkbox" value="statin_fibrate"> Statin/Fibrate use</label>
+                                <label class="checkbox-item"><input type="checkbox" value="pregnancy"> Pregnancy/Lactation</label>
+                                <label class="checkbox-item"><input type="checkbox" value="liver_renal"> Chronic Liver/Renal Disease</label>
+                                <label class="checkbox-item"><input type="checkbox" value="alcohol_dep"> Alcohol Dependence</label>
+                                <label class="checkbox-item"><input type="checkbox" value="acute_pancreatitis"> Acute Pancreatitis</label>
+                            </div>
+                            <div class="form-group" style="margin-top:12px;">
+                                <label>Exclusion Warning</label>
+                                <input type="text" id="sv_exclusion_warning" placeholder="Any additional exclusion notes">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card fade-in">
+                        <div class="card-title"><span class="icon">🩸</span> Lipid Profile</div>
+                        <div class="form-grid">
+                            <div class="form-group">
+                                <label>Fasting Verified <span class="required">*</span></label>
+                                <select id="sv_fasting_verified" required><option value="">Select...</option><option value="yes">Yes</option><option value="no">No</option></select>
+                            </div>
+                            <div class="form-group">
+                                <label>Fasting Hours</label>
+                                <input type="number" id="sv_fasting_hours" min="8" max="24" placeholder="hours">
+                            </div>
+                            <div class="form-group">
+                                <label>Total Cholesterol (mg/dL) <span class="required">*</span></label>
+                                <input type="number" id="sv_tc_mgdl" min="50" max="800" step="0.1" placeholder="mg/dL" required oninput="sv_calcRatio(); sv_calcLDL()">
+                            </div>
+                            <div class="form-group">
+                                <label>Triglycerides (mg/dL) <span class="required">*</span></label>
+                                <input type="number" id="sv_tg_mgdl" min="20" max="2000" step="0.1" placeholder="mg/dL" required oninput="sv_calcVLDL()">
+                            </div>
+                            <div class="form-group">
+                                <label>HDL (mg/dL) <span class="required">*</span></label>
+                                <input type="number" id="sv_hdl_mgdl" min="10" max="200" step="0.1" placeholder="mg/dL" required oninput="sv_calcRatio(); sv_calcLDL()">
+                            </div>
+                            <div class="form-group">
+                                <label>LDL (mg/dL) <span class="required">*</span></label>
+                                <input type="number" id="sv_ldl_mgdl" min="10" max="500" step="0.1" placeholder="mg/dL" required oninput="sv_calcRatio()">
+                                <small>Auto-calculated from Friedewald: TC - HDL - (TG/5)</small>
+                            </div>
+                            <div class="form-group">
+                                <label>VLDL (mg/dL)</label>
+                                <input type="number" id="sv_vldl_mgdl" min="5" max="400" step="0.1" placeholder="mg/dL" readonly>
+                                <small>Auto: TG / 5</small>
+                            </div>
+                            <div class="form-group">
+                                <label>TC/HDL Ratio</label>
+                                <input type="text" id="sv_ratio_display" readonly placeholder="Auto-calculated">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card fade-in">
+                        <div class="card-title"><span class="icon">🦋</span> Thyroid Function</div>
+                        <div class="form-grid">
+                            <div class="form-group">
+                                <label>Thyroid Dysfunction</label>
+                                <select id="sv_thyroid_status">
+                                    <option value="">Select...</option>
+                                    <option value="euthyroid">Euthyroid (Normal)</option>
+                                    <option value="hypothyroid">Hypothyroidism</option>
+                                    <option value="hyperthyroid">Hyperthyroidism</option>
+                                    <option value="subclinical_hypo">Subclinical Hypothyroidism</option>
+                                    <option value="subclinical_hyper">Subclinical Hyperthyroidism</option>
+                                    <option value="unknown">Unknown / Not Tested</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label>Thyroid Diagnosis Type</label>
+                                <select id="sv_thyroid_type">
+                                    <option value="">Select...</option>
+                                    <option value="hashimoto">Hashimoto's Thyroiditis</option>
+                                    <option value="grave">Grave's Disease</option>
+                                    <option value="nodular">Toxic Nodular Goiter</option>
+                                    <option value="iatrogenic">Iatrogenic (post-surgery/ablation)</option>
+                                    <option value="drug_induced">Drug-Induced</option>
+                                    <option value="other">Other</option>
+                                    <option value="na">Not Applicable</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label>TSH (mIU/L)</label>
+                                <input type="number" id="sv_tsh_miu_l" placeholder="mIU/L"><small>Reference: 0.4 - 4.0 mIU/L</small>
+                            </div>
+                            <div class="form-group">
+                                <label>Free T3 (pg/mL)</label>
+                                <input type="number" id="sv_ft3_pgmL" placeholder="pg/mL"><small>Reference: 2.3 - 4.2 pg/mL</small>
+                            </div>
+                            <div class="form-group">
+                                <label>Free T4 (ng/dL)</label>
+                                <input type="number" id="sv_ft4_ngdl" placeholder="ng/dL"><small>Reference: 0.8 - 1.8 ng/dL</small>
+                            </div>
+                            <div class="form-group">
+                                <label>Anti-TPO Antibodies (IU/mL)</label>
+                                <input type="number" id="sv_anti_tpo" placeholder="IU/mL"><small>Reference: &lt; 34 IU/mL</small>
+                            </div>
+                            <div class="form-group">
+                                <label>On Thyroid Medication</label>
+                                <select id="sv_thyroid_meds">
+                                    <option value="">Select...</option>
+                                    <option value="levothyroxine">Levothyroxine (T4)</option>
+                                    <option value="liothyronine">Liothyronine (T3)</option>
+                                    <option value="combination">Combination T4/T3</option>
+                                    <option value="methimazole">Methimazole</option>
+                                    <option value="propylthiouracil">Propylthiouracil (PTU)</option>
+                                    <option value="carbimazole">Carbimazole</option>
+                                    <option value="no_meds">No Medication</option>
+                                    <option value="other">Other</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label>Medication Dose (μg or mg)</label>
+                                <input type="text" id="sv_thyroid_dose" placeholder="e.g., 100 μg, 10 mg"><small>Leave blank if not on medication</small>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label>Thyroid Ultrasound Findings</label>
+                            <textarea id="sv_thyroid_usg" rows="2" placeholder="e.g., Normal, Goiter, Nodules, Hashimoto changes"></textarea>
+                        </div>
+                        <div class="form-grid">
+                            <div class="form-group"><label>Previous Thyroid Surgery</label><select id="sv_thyroid_surgery"><option value="">Select...</option><option value="yes">Yes</option><option value="no">No</option></select></div>
+                            <div class="form-group"><label>Radioactive Iodine Treatment</label><select id="sv_radioactive_iodine"><option value="">Select...</option><option value="yes">Yes</option><option value="no">No</option></select></div>
+                        </div>
+                    </div>
+
+                    <div class="card fade-in">
+                        <div class="card-title"><span class="icon">📷</span> Imaging</div>
+                        <div class="form-grid">
+                            <div class="form-group">
+                                <label>Imaging Modality <span class="required">*</span></label>
+                                <select id="sv_img_modality" required>
+                                    <option value="">Select...</option>
+                                    <option value="usg">Ultrasound</option>
+                                    <option value="ct">CT Scan</option>
+                                    <option value="mri">MRI/MRCP</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label>Stone Number <span class="required">*</span></label>
+                                <select id="sv_stone_number" required>
+                                    <option value="">Select...</option>
+                                    <option value="solitary">Solitary</option>
+                                    <option value="multiple">Multiple (&gt;3)</option>
+                                    <option value="sludge">Sludge Only</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label>Max Stone Size (mm) <span class="required">*</span></label>
+                                <input type="number" id="sv_max_stone_mm" min="1" max="100" step="0.1" placeholder="mm" required>
+                            </div>
+                            <div class="form-group">
+                                <label>GB Wall Thickness (mm)</label>
+                                <input type="number" id="sv_gb_wall_mm" min="1" max="20" step="0.1" placeholder="mm">
+                            </div>
+                            <div class="form-group">
+                                <label>CBD Dilated</label>
+                                <select id="sv_cbd_dilated"><option value="">Select...</option><option value="yes">Yes</option><option value="no">No</option></select>
+                            </div>
+                            <div class="form-group">
+                                <label>CBD Diameter (mm)</label>
+                                <input type="number" id="sv_cbd_mm" min="1" max="30" step="0.1" placeholder="mm"><small>Leave blank if not dilated</small>
+                            </div>
+                            <div class="form-group">
+                                <label>Stone Composition</label>
+                                <select id="sv_stone_composition">
+                                    <option value="">Select...</option>
+                                    <option value="cholesterol">Cholesterol</option>
+                                    <option value="pigment">Pigment</option>
+                                    <option value="mixed">Mixed</option>
+                                    <option value="not_sent">Not Sent for Analysis</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div style="text-align:center;margin:30px 0;">
+                        <button type="submit" class="btn btn-success btn-block" id="sv_submitBtn" style="font-size:1.1rem;padding:16px;">
+                            🔒 Encrypt & Save
+                        </button>
+                        <div class="btn-group" style="justify-content:center;margin-top:12px;">
+                            <button type="button" class="btn btn-primary" onclick="surveyorSubmit(true)">💾 Save & Next Entry ➡️</button>
+                            <button type="button" class="btn btn-secondary" onclick="downloadSurveyorData()">📥 Download File</button>
+                            <button type="button" class="btn btn-secondary" onclick="goToMain()">⬅️ Back</button>
+                            <button type="reset" class="btn btn-secondary">Clear Form</button>
+                        </div>
+                        <p style="margin-top:12px;color:#888;font-size:0.85rem;">
+                            Data is encrypted with AES-256-GCM in your browser and saved to Drive automatically.
+                            Download encrypted files periodically as backup.
+                        </p>
+                    </div>
+                </form>
+
+                <div id="surveyorSuccess" class="alert alert-success hidden" style="margin-top: 15px;">
+                    <div id="surveyorSyncStatus"></div>
+                    <div id="surveyorCloudStatus" style="margin-top: 8px; font-size: 0.85rem; color: #64748b;"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ==================== INVESTIGATOR INTERFACE ==================== -->
+        <div id="investigatorApp" class="hidden">
+            <header>
+                <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px;">
+                    <div>
+                        <h1>🔬 Cholelithiasis Lipid Study</h1>
+                        <p>Secure Research Data & Analytics</p>
+                    </div>
+                    <div style="display: flex; gap: 10px; align-items: center; flex-wrap: wrap;">
+                        <span class="badge badge-blue">👨‍⚕️ Investigator</span>
+                        <span id="syncStatus" class="sync-status status-local">● Local Only</span>
+                        <button class="btn btn-success" onclick="toggleDrivePanel()" style="padding: 8px 16px; font-size: 0.85rem;">☁️ Drive</button>
+                        <button class="btn btn-secondary" onclick="logout()" style="padding: 8px 16px; font-size: 0.85rem;">Logout</button>
+                    </div>
+                </div>
+            </header>
+
+            <div id="drivePanel" class="panel hidden">
+                <div class="drive-section">
+                    <h3>☁️ Google Drive Backup</h3>
+                    <p style="margin-bottom: 15px; color: #555;">
+                        Your data is encrypted with your key before leaving this device. 
+                        Google stores only encrypted blobs.
+                    </p>
+                    <div class="btn-group">
+                        <button class="btn btn-success" onclick="saveToDrive()">💾 Save Backup to Drive</button>
+                        <button class="btn btn-primary" onclick="loadFromDrive()">📂 Load from Drive</button>
+                    </div>
+                    <div class="progress-bar hidden" id="uploadProgress">
+                        <div class="progress-fill" id="progressFill"></div>
+                    </div>
+                    <p id="uploadStatus" style="font-size: 0.85rem; color: #555; margin-top: 5px;"></p>
+                    <div style="margin-top: 15px; padding: 10px; background: #e8f5e9; border-radius: 8px; border: 1px solid #a5d6a7;">
+                        <p style="color: #2e7d32; font-size: 0.85rem; margin: 0;">
+                            <strong>✅ Connected to Apps Script Backend</strong><br>
+                            Database file: <code>cholelithiasis-study-encrypted-db.json</code>
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="stats-grid">
+                <div class="stat-card"><h3 id="totalRecords">0</h3><p>Total Records</p></div>
+                <div class="stat-card"><h3 id="femaleCount">0</h3><p>Female Patients</p></div>
+                <div class="stat-card"><h3 id="maleCount">0</h3><p>Male Patients</p></div>
+                <div class="stat-card"><h3 id="thisMonthCount">0</h3><p>This Month</p></div>
+            </div>
+
+            <div class="tabs">
+                <div class="tab active" onclick="switchTab('entry')">📝 New Entry</div>
+                <div class="tab" onclick="switchTab('records')">📋 View Records</div>
+                <div class="tab" onclick="switchTab('import')">📥 Import Surveyor Data</div>
+                <div class="tab" onclick="switchTab('share')">🔗 Share Link</div>
+                <div class="tab" onclick="switchTab('export')">📊 Export Data</div>
+                <div class="tab" onclick="switchTab('settings')">⚙️ Settings</div>
+            </div>
+
+            <div id="entryTab" class="tab-content active">
+                <div class="panel">
+                    <h2 style="margin-bottom: 20px; color: #1565c0;">New Patient Entry</h2>
+                    <form id="investigatorForm" onsubmit="saveInvestigatorEntry(event)">
+                        <div class="card" style="margin-bottom:16px;">
+                            <div class="card-title"><span class="icon">👤</span> Demographics</div>
+                            <div class="form-grid">
+                                <div class="form-group"><label>Study ID <span class="required">*</span></label><input type="text" id="iv_study_id" placeholder="e.g., CLS-001" required></div>
+                                <div class="form-group"><label>Patient Name <span class="required">*</span></label><input type="text" id="iv_patient_name" placeholder="Full name" required></div>
+                                <div class="form-group"><label>Collection Date <span class="required">*</span></label><input type="date" id="iv_collection_date" required></div>
+                                <div class="form-group"><label>Collector Initials</label><input type="text" id="iv_collector_initials" placeholder="e.g., JD" maxlength="4"></div>
+                                <div class="form-group"><label>Age (years) <span class="required">*</span></label><input type="number" id="iv_age_years" min="18" max="120" placeholder="18-120" required></div>
+                                <div class="form-group"><label>Sex <span class="required">*</span></label><select id="iv_sex" required><option value="">Select...</option><option value="male">Male</option><option value="female">Female</option></select></div>
+                                <div class="form-group"><label>Parity (if female)</label><input type="number" id="iv_parity" min="0" max="20" placeholder="Number of births"></div>
+                                <div class="form-group"><label>OCP Use</label><select id="iv_ocp_use"><option value="">Select...</option><option value="never">Never</option><option value="current">Current</option><option value="past">Past (&gt;3 months ago)</option></select></div>
+                                <div class="form-group"><label>Height (cm) <span class="required">*</span></label><input type="number" id="iv_height_cm" min="100" max="250" step="0.1" placeholder="cm" required oninput="iv_calcBMI()"></div>
+                                <div class="form-group"><label>Weight (kg) <span class="required">*</span></label><input type="number" id="iv_weight_kg" min="20" max="300" step="0.1" placeholder="kg" required oninput="iv_calcBMI()"></div>
+                                <div class="form-group"><label>BMI (auto-calculated)</label><input type="text" id="iv_bmi_display" readonly placeholder="Will calculate automatically"></div>
+                                <div class="form-group"><label>Waist Circumference (cm)</label><input type="number" id="iv_waist_cm" min="40" max="200" step="0.1" placeholder="cm"></div>
+                            </div>
+                        </div>
+
+                        <div class="card" style="margin-bottom:16px;">
+                            <div class="card-title"><span class="icon">🌍</span> Ethnicity & Language</div>
+                            <div class="form-group">
+                                <label>Ethnicity / Language <span class="required">*</span></label>
+                                <div class="checkbox-group" id="iv_ethnicity_flags">
+                                    <label class="checkbox-item"><input type="checkbox" value="bengali"> Bengali</label>
+                                    <label class="checkbox-item"><input type="checkbox" value="telegu"> Telegu</label>
+                                    <label class="checkbox-item"><input type="checkbox" value="malayalam"> Malayalam</label>
+                                    <label class="checkbox-item"><input type="checkbox" value="tamil"> Tamil</label>
+                                    <label class="checkbox-item"><input type="checkbox" value="nicobari"> Nicobari</label>
+                                    <label class="checkbox-item"><input type="checkbox" value="other" id="iv_ethnicity_other_checkbox" onchange="iv_toggleOtherEthnicity()"> Other</label>
+                                </div>
+                            </div>
+                            <div class="form-group" id="iv_ethnicity_other_field" style="display:none;">
+                                <label>Other Ethnicity / Language (specify)</label>
+                                <input type="text" id="iv_ethnicity_other_text" placeholder="Specify other ethnicity/language">
+                            </div>
+                        </div>
+
+                        <div class="card" style="margin-bottom:16px;">
+                            <div class="card-title"><span class="icon">🥗</span> Diet</div>
+                            <div class="form-group">
+                                <label>Times peas / chatpati eaten per week <span class="required">*</span></label>
+                                <select id="iv_diet_peas_chatpati" required>
+                                    <option value="">Select...</option>
+                                    <option value="lt_4">&lt; 4</option>
+                                    <option value="4_10">4-10</option>
+                                    <option value="10_20">10-20</option>
+                                    <option value="gt_20">&gt; 20</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="card" style="margin-bottom:16px;">
+                            <div class="card-title"><span class="icon">🏥</span> Clinical History</div>
+                            <div class="form-grid">
+                                <div class="form-group"><label>Diabetes Mellitus</label><select id="iv_dm_status"><option value="">Select...</option><option value="yes">Yes</option><option value="no">No</option></select></div>
+                                <div class="form-group"><label>HbA1c (%)</label><input type="number" id="iv_hba1c" min="3" max="20" step="0.1" placeholder="%"><small>Leave blank if no DM</small></div>
+                                <div class="form-group"><label>Hypertension</label><select id="iv_htn_status"><option value="">Select...</option><option value="yes">Yes</option><option value="no">No</option></select></div>
+                                <div class="form-group"><label>Smoking</label><select id="iv_smoking"><option value="">Select...</option><option value="yes">Yes</option><option value="no">No</option><option value="former">Former</option></select></div>
+                                <div class="form-group"><label>Pack-Years (if smoker)</label><input type="number" id="iv_pack_years" min="0" max="200" step="0.1" placeholder="pack-years"></div>
+                                <div class="form-group"><label>Rapid Weight Loss</label><select id="iv_rapid_weight_loss"><option value="">Select...</option><option value="yes">Yes</option><option value="no">No</option></select></div>
+                            </div>
+                            <div class="form-group"><label>RWL Cause (if applicable)</label><input type="text" id="iv_rwl_cause" placeholder="e.g., Bariatric surgery, Crash diet"></div>
+                            <div class="form-group"><label>Family Hx Gallstones</label><select id="iv_fam_hx_gallstones"><option value="">Select...</option><option value="yes">Yes</option><option value="no">No</option></select></div>
+                            <div style="background:#fff3e0;border:1px solid #ffe0b2;border-radius:12px;padding:16px;margin-top:12px;">
+                                <div class="card-title" style="color:#e65100;border-color:#ffe0b2;margin-top:0;"><span class="icon">⚠️</span> Exclusion Criteria</div>
+                                <p style="font-size:0.9rem;color:#bf360c;margin-bottom:12px;">Check all that apply (patient will be flagged):</p>
+                                <div class="checkbox-group" id="iv_exclusion_flags">
+                                    <label class="checkbox-item"><input type="checkbox" value="statin_fibrate"> Statin/Fibrate use</label>
+                                    <label class="checkbox-item"><input type="checkbox" value="pregnancy"> Pregnancy/Lactation</label>
+                                    <label class="checkbox-item"><input type="checkbox" value="liver_renal"> Chronic Liver/Renal Disease</label>
+                                    <label class="checkbox-item"><input type="checkbox" value="alcohol_dep"> Alcohol Dependence</label>
+                                    <label class="checkbox-item"><input type="checkbox" value="acute_pancreatitis"> Acute Pancreatitis</label>
+                                </div>
+                                <div class="form-group" style="margin-top:12px;"><label>Exclusion Warning</label><input type="text" id="iv_exclusion_warning" placeholder="Any additional exclusion notes"></div>
+                            </div>
+                        </div>
+
+                        <div class="card" style="margin-bottom:16px;">
+                            <div class="card-title"><span class="icon">🩸</span> Lipid Profile</div>
+                            <div class="form-grid">
+                                <div class="form-group"><label>Fasting Verified <span class="required">*</span></label><select id="iv_fasting_verified" required><option value="">Select...</option><option value="yes">Yes</option><option value="no">No</option></select></div>
+                                <div class="form-group"><label>Fasting Hours</label><input type="number" id="iv_fasting_hours" min="8" max="24" placeholder="hours"></div>
+                                <div class="form-group"><label>Total Cholesterol (mg/dL) <span class="required">*</span></label><input type="number" id="iv_tc_mgdl" min="50" max="800" step="0.1" placeholder="mg/dL" required oninput="iv_calcRatio(); iv_calcLDL()"></div>
+                                <div class="form-group"><label>Triglycerides (mg/dL) <span class="required">*</span></label><input type="number" id="iv_tg_mgdl" min="20" max="2000" step="0.1" placeholder="mg/dL" required oninput="iv_calcVLDL()"></div>
+                                <div class="form-group"><label>HDL (mg/dL) <span class="required">*</span></label><input type="number" id="iv_hdl_mgdl" min="10" max="200" step="0.1" placeholder="mg/dL" required oninput="iv_calcRatio(); iv_calcLDL()"></div>
+                                <div class="form-group"><label>LDL (mg/dL) <span class="required">*</span></label><input type="number" id="iv_ldl_mgdl" min="10" max="500" step="0.1" placeholder="mg/dL" required oninput="iv_calcRatio()"><small>Auto-calculated from Friedewald: TC - HDL - (TG/5)</small></div>
+                                <div class="form-group"><label>VLDL (mg/dL)</label><input type="number" id="iv_vldl_mgdl" min="5" max="400" step="0.1" placeholder="mg/dL" readonly><small>Auto: TG / 5</small></div>
+                                <div class="form-group"><label>TC/HDL Ratio</label><input type="text" id="iv_ratio_display" readonly placeholder="Auto-calculated"></div>
+                            </div>
+                        </div>
+
+                        <div class="card" style="margin-bottom:16px;">
+                            <div class="card-title"><span class="icon">🦋</span> Thyroid Function</div>
+                            <div class="form-grid">
+                                <div class="form-group"><label>Thyroid Dysfunction</label><select id="iv_thyroid_status"><option value="">Select...</option><option value="euthyroid">Euthyroid (Normal)</option><option value="hypothyroid">Hypothyroidism</option><option value="hyperthyroid">Hyperthyroidism</option><option value="subclinical_hypo">Subclinical Hypothyroidism</option><option value="subclinical_hyper">Subclinical Hyperthyroidism</option><option value="unknown">Unknown / Not Tested</option></select></div>
+                                <div class="form-group"><label>Thyroid Diagnosis Type</label><select id="iv_thyroid_type"><option value="">Select...</option><option value="hashimoto">Hashimoto's Thyroiditis</option><option value="grave">Grave's Disease</option><option value="nodular">Toxic Nodular Goiter</option><option value="iatrogenic">Iatrogenic (post-surgery/ablation)</option><option value="drug_induced">Drug-Induced</option><option value="other">Other</option><option value="na">Not Applicable</option></select></div>
+                                <div class="form-group"><label>TSH (mIU/L)</label><input type="number" id="iv_tsh_miu_l" placeholder="mIU/L"><small>Reference: 0.4 - 4.0 mIU/L</small></div>
+                                <div class="form-group"><label>Free T3 (pg/mL)</label><input type="number" id="iv_ft3_pgmL" placeholder="pg/mL"><small>Reference: 2.3 - 4.2 pg/mL</small></div>
+                                <div class="form-group"><label>Free T4 (ng/dL)</label><input type="number" id="iv_ft4_ngdl" placeholder="ng/dL"><small>Reference: 0.8 - 1.8 ng/dL</small></div>
+                                <div class="form-group"><label>Anti-TPO Antibodies (IU/mL)</label><input type="number" id="iv_anti_tpo" placeholder="IU/mL"><small>Reference: &lt; 34 IU/mL</small></div>
+                                <div class="form-group"><label>On Thyroid Medication</label><select id="iv_thyroid_meds"><option value="">Select...</option><option value="levothyroxine">Levothyroxine (T4)</option><option value="liothyronine">Liothyronine (T3)</option><option value="combination">Combination T4/T3</option><option value="methimazole">Methimazole</option><option value="propylthiouracil">Propylthiouracil (PTU)</option><option value="carbimazole">Carbimazole</option><option value="no_meds">No Medication</option><option value="other">Other</option></select></div>
+                                <div class="form-group"><label>Medication Dose (μg or mg)</label><input type="text" id="iv_thyroid_dose" placeholder="e.g., 100 μg, 10 mg"><small>Leave blank if not on medication</small></div>
+                            </div>
+                            <div class="form-group"><label>Thyroid Ultrasound Findings</label><textarea id="iv_thyroid_usg" rows="2" placeholder="e.g., Normal, Goiter, Nodules, Hashimoto changes"></textarea></div>
+                            <div class="form-grid">
+                                <div class="form-group"><label>Previous Thyroid Surgery</label><select id="iv_thyroid_surgery"><option value="">Select...</option><option value="yes">Yes</option><option value="no">No</option></select></div>
+                                <div class="form-group"><label>Radioactive Iodine Treatment</label><select id="iv_radioactive_iodine"><option value="">Select...</option><option value="yes">Yes</option><option value="no">No</option></select></div>
+                            </div>
+                        </div>
+
+                        <div class="card" style="margin-bottom:16px;">
+                            <div class="card-title"><span class="icon">📷</span> Imaging</div>
+                            <div class="form-grid">
+                                <div class="form-group"><label>Imaging Modality <span class="required">*</span></label><select id="iv_img_modality" required><option value="">Select...</option><option value="usg">Ultrasound</option><option value="ct">CT Scan</option><option value="mri">MRI/MRCP</option></select></div>
+                                <div class="form-group"><label>Stone Number <span class="required">*</span></label><select id="iv_stone_number" required><option value="">Select...</option><option value="solitary">Solitary</option><option value="multiple">Multiple (&gt;3)</option><option value="sludge">Sludge Only</option></select></div>
+                                <div class="form-group"><label>Max Stone Size (mm) <span class="required">*</span></label><input type="number" id="iv_max_stone_mm" min="1" max="100" step="0.1" placeholder="mm" required></div>
+                                <div class="form-group"><label>GB Wall Thickness (mm)</label><input type="number" id="iv_gb_wall_mm" min="1" max="20" step="0.1" placeholder="mm"></div>
+                                <div class="form-group"><label>CBD Dilated</label><select id="iv_cbd_dilated"><option value="">Select...</option><option value="yes">Yes</option><option value="no">No</option></select></div>
+                                <div class="form-group"><label>CBD Diameter (mm)</label><input type="number" id="iv_cbd_mm" min="1" max="30" step="0.1" placeholder="mm"><small>Leave blank if not dilated</small></div>
+                                <div class="form-group"><label>Stone Composition</label><select id="iv_stone_composition"><option value="">Select...</option><option value="cholesterol">Cholesterol</option><option value="pigment">Pigment</option><option value="mixed">Mixed</option><option value="not_sent">Not Sent for Analysis</option></select></div>
+                            </div>
+                        </div>
+
+                        <div class="card" style="margin-bottom:16px;">
+                            <div class="card-title"><span class="icon">✅</span> Quality Audit</div>
+                            <div class="form-group">
+                                <label>Quality Checks</label>
+                                <div class="checkbox-group">
+                                    <label class="checkbox-item"><input type="checkbox" value="fields_complete" id="iv_qc_fields"> All required fields complete</label>
+                                    <label class="checkbox-item"><input type="checkbox" value="values_in_range" id="iv_qc_range"> Values within physiological range</label>
+                                    <label class="checkbox-item"><input type="checkbox" value="imaging_correlates" id="iv_qc_img"> Imaging correlates with labs</label>
+                                    <label class="checkbox-item"><input type="checkbox" value="consent_obtained" id="iv_qc_consent"> Informed consent obtained</label>
+                                </div>
+                            </div>
+                            <div class="form-grid">
+                                <div class="form-group"><label>Reviewer Signature</label><input type="text" id="iv_reviewer_signature" placeholder="Type full name as signature"></div>
+                                <div class="form-group"><label>Review Timestamp</label><input type="datetime-local" id="iv_review_timestamp"></div>
+                            </div>
+                        </div>
+
+                        <div class="btn-group">
+                            <button type="submit" class="btn btn-primary">💾 Save Entry</button>
+                            <button type="button" class="btn btn-secondary" onclick="goToMain()">⬅️ Back</button>
+                            <button type="reset" class="btn btn-secondary">Clear Form</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+            <div id="recordsTab" class="tab-content">
+                <div class="panel">
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; flex-wrap: wrap; gap: 10px;">
+                        <h2 style="color: #1565c0;">Study Records</h2>
+                        <div style="display: flex; gap: 10px; flex-wrap: wrap;">
+                            <input type="text" id="searchRecords" placeholder="Search..." onkeyup="renderRecords()" style="width: 220px; margin: 0;">
+                            <select id="filterSex" onchange="renderRecords()" style="width: 130px; margin: 0;"><option value="">All Sexes</option><option value="male">Male</option><option value="female">Female</option></select>
+                        </div>
+                    </div>
+                    <div style="overflow-x: auto;">
+                        <table id="recordsTable">
+                            <thead>
+                                <tr><th>Study ID</th><th>Name</th><th>Age/Sex</th><th>Date</th><th>BMI</th><th>TC/HDL</th><th>Stone Size</th><th>Exclusions</th><th>Source</th><th>Actions</th></tr>
+                            </thead>
+                            <tbody id="recordsBody"></tbody>
+                        </table>
+                    </div>
+                    <p id="noRecords" class="hidden" style="text-align: center; padding: 30px; color: #757575;">No records found.</p>
+                </div>
+            </div>
+
+            <div id="importTab" class="tab-content">
+                <div class="panel">
+                    <h2 style="margin-bottom: 20px; color: #1565c0;">📥 Import Surveyor Data</h2>
+                    <div class="alert alert-info">
+                        <strong>How it works:</strong> Surveyors can submit directly to Drive or download encrypted files. Import them here.
+                    </div>
+
+                    <div style="margin-top: 20px; padding: 20px; background: #e3f2fd; border-radius: 10px; border: 1px solid #bbdefb; margin-bottom: 20px;">
+                        <h4 style="color: #1565c0; margin-bottom: 10px;">☁️ Import from Drive (Direct)</h4>
+                        <p style="color: #555; font-size: 0.9rem; margin-bottom: 10px;">
+                            Surveyors submit directly to Drive. Load all their submissions here without handling files.
+                        </p>
+                        <button class="btn btn-primary" onclick="loadSurveyorSubmissionsFromDrive()">📥 Load Surveyor Submissions from Drive</button>
+                    </div>
+
+                    <hr style="border: none; border-top: 1px solid #e0e0e0; margin: 20px 0;">
+
+                    <h4 style="margin-bottom: 15px; color: #1565c0;">📁 Import from File (Offline/Backup)</h4>
+                    <div class="form-group">
+                        <label>Select encrypted surveyor file(s)</label>
+                        <input type="file" id="surveyorFiles" accept=".json" multiple onchange="previewSurveyorFiles()">
+                    </div>
+                    <div id="surveyorPreview" class="hidden" style="margin: 15px 0;">
+                        <h4 style="margin-bottom: 10px;">Files to Import:</h4>
+                        <div id="previewList" style="max-height: 200px; overflow-y: auto; border: 1px solid #e0e0e0; border-radius: 8px; padding: 10px;"></div>
+                        <button class="btn btn-success" onclick="importSurveyorFiles()" style="margin-top: 15px;">📥 Import & Decrypt All</button>
+                    </div>
+                    <div id="importResults" class="hidden" style="margin-top: 15px;"></div>
+                </div>
+            </div>
+
+            <div id="shareTab" class="tab-content">
+                <div class="panel">
+                    <h2 style="margin-bottom: 20px; color: #1565c0;">🔗 Share Surveyor Link</h2>
+                    <div class="alert alert-info"><strong>Share this link with your surveyors.</strong> They will go directly to the data entry form.</div>
+                    <div class="share-box">
+                        <p><strong>Surveyor Entry Link</strong></p>
+                        <div class="share-url" id="shareableLink">Generating...</div>
+                        <button class="btn btn-success" onclick="copyLink()" style="margin-top: 10px;">📋 Copy Link</button>
+                    </div>
+                    <div style="margin-top: 20px; padding: 15px; background: #fff8e1; border-radius: 8px; border: 1px solid #ffecb3;">
+                        <h4 style="color: #f57f17; margin-bottom: 8px;">⚠️ Security Notes</h4>
+                        <ul style="color: #f57f17; padding-left: 20px; font-size: 0.9rem;">
+                            <li>Surveyors cannot access your data or the investigator interface</li>
+                            <li>They can only add new entries and download encrypted files</li>
+                            <li>All data is encrypted before leaving their device</li>
+                        </ul>
+                    </div>
+                    <div style="margin-top: 20px;">
+                        <h4 style="margin-bottom: 10px;">QR Code for Mobile Surveyors</h4>
+                        <div style="padding: 20px; background: white; display: inline-block; border-radius: 8px; border: 1px solid #e0e0e0;">
+                            <canvas id="qrCanvas" width="200" height="200"></canvas>
+                        </div>
+                        <p style="font-size: 0.85rem; color: #757575; margin-top: 5px;">Scan with phone camera to open surveyor form directly</p>
+                    </div>
+                </div>
+            </div>
+
+            <div id="exportTab" class="tab-content">
+                <div class="panel">
+                    <h2 style="margin-bottom: 20px; color: #1565c0;">Export Data</h2>
+                    <div class="alert alert-success"><strong>Privacy Note:</strong> Exported files contain decrypted data. Store them securely.</div>
+                    <div class="form-grid" style="margin-bottom: 20px;">
+                        <div class="form-group"><label>Date Range From</label><input type="date" id="exportFrom"></div>
+                        <div class="form-group"><label>Date Range To</label><input type="date" id="exportTo"></div>
+                    </div>
+                    <div class="btn-group">
+                        <button class="btn btn-success" onclick="exportCSV()">📄 Export as CSV</button>
+                        <button class="btn btn-success" onclick="exportExcel()">📊 Export as Excel</button>
+                        <button class="btn btn-primary" onclick="exportJSON()">💾 Backup (Encrypted JSON)</button>
+                    </div>
+                </div>
+            </div>
+
+            <div id="settingsTab" class="tab-content">
+                <div class="panel">
+                    <h2 style="margin-bottom: 20px; color: #1565c0;">Settings</h2>
+                    <div class="alert alert-warning"><strong>⚠️ Important:</strong> Your encryption key is: <span id="currentKeyDisplay" style="font-family: monospace; background: #fff8e1; padding: 2px 6px; border-radius: 4px;">Not set</span></div>
+                    <div class="form-group">
+                        <label>Change Encryption Key</label>
+                        <input type="text" id="newKey" class="key-input" placeholder="New encryption key (min 8 chars)">
+                        <button class="btn btn-warning" onclick="changeKey()" style="margin-top: 10px;">⚠️ Change Key & Re-encrypt All Data</button>
+                        <p style="font-size: 0.8rem; color: #757575; margin-top: 5px;">This will re-encrypt all existing data with the new key.</p>
+                    </div>
+                    <div style="margin-top: 25px; padding: 20px; background: #ffebee; border-radius: 10px; border: 1px solid #ffcdd2;">
+                        <h3 style="color: #c62828; margin-bottom: 10px;">⚠️ Danger Zone</h3>
+                        <button class="btn btn-danger" onclick="clearAllData()">🗑️ Clear All Local Data</button>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
-  </div>
 
-  <!-- Hidden field for the admin-configured public key -->
-  <input type="hidden" id="adminPublicKey" value="">
-
-  <div class="progress-bar"><div class="progress-fill" id="progressFill" style="width:0%"></div></div>
-  <p style="text-align:center;color:#888;font-size:0.85rem;margin-bottom:20px;" id="progressText">Section 1 of 5</p>
-
-  <form id="studyForm" onsubmit="return false;">
-
-    <!-- SECTION 1: Demographics -->
-    <div class="card fade-in" id="sec-demographics">
-      <div class="card-title"><span class="icon">👤</span> Demographics</div>
-      <div class="form-row">
-        <div class="field">
-          <label>Study ID <span class="req">*</span></label>
-          <input type="text" id="study_id" placeholder="e.g., CLS-001" required>
+    <div id="viewModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header"><h2>Patient Record Details</h2><button class="close-btn" onclick="closeModal()">&times;</button></div>
+            <div id="modalBody"></div>
         </div>
-        <div class="field">
-          <label>Patient Name <span class="req">*</span></label>
-          <input type="text" id="patient_name" placeholder="Full name" required>
-        </div>
-      </div>
-      <div class="form-row">
-        <div class="field">
-          <label>Collection Date <span class="req">*</span></label>
-          <input type="date" id="collection_date" required>
-        </div>
-        <div class="field">
-          <label>Collector Initials</label>
-          <input type="text" id="collector_initials" placeholder="e.g., JD" maxlength="4">
-        </div>
-      </div>
-      <div class="form-row">
-        <div class="field">
-          <label>Age (years) <span class="req">*</span></label>
-          <input type="number" id="age_years" min="18" max="120" placeholder="18-120" required>
-        </div>
-        <div class="field">
-          <label>Sex <span class="req">*</span></label>
-          <select id="sex" required>
-            <option value="">Select...</option>
-            <option value="male">Male</option>
-            <option value="female">Female</option>
-          </select>
-        </div>
-      </div>
-      <div class="form-row">
-        <div class="field">
-          <label>Parity (if female)</label>
-          <input type="number" id="parity" min="0" max="20" placeholder="Number of births">
-        </div>
-        <div class="field">
-          <label>OCP Use</label>
-          <select id="ocp_use">
-            <option value="">Select...</option>
-            <option value="never">Never</option>
-            <option value="current">Current</option>
-            <option value="past">Past (&gt;3 months ago)</option>
-          </select>
-        </div>
-      </div>
-      <div class="form-row">
-        <div class="field">
-          <label>Height (cm) <span class="req">*</span></label>
-          <input type="number" id="height_cm" min="100" max="250" step="0.1" placeholder="cm" required oninput="calcBMI()">
-        </div>
-        <div class="field">
-          <label>Weight (kg) <span class="req">*</span></label>
-          <input type="number" id="weight_kg" min="20" max="300" step="0.1" placeholder="kg" required oninput="calcBMI()">
-        </div>
-      </div>
-      <div class="form-row">
-        <div class="field">
-          <label>BMI (auto-calculated)</label>
-          <input type="text" id="bmi_display" readonly placeholder="Will calculate automatically">
-          <input type="hidden" id="bmi">
-        </div>
-        <div class="field">
-          <label>Waist Circumference (cm)</label>
-          <input type="number" id="waist_cm" min="40" max="200" step="0.1" placeholder="cm">
-        </div>
-      </div>
     </div>
-
-    <!-- SECTION 2: Clinical History -->
-    <div class="card fade-in" id="sec-clinical">
-      <div class="card-title"><span class="icon">🏥</span> Clinical History</div>
-      <div class="form-row">
-        <div class="field">
-          <label>Diabetes Mellitus</label>
-          <select id="dm_status">
-            <option value="">Select...</option>
-            <option value="yes">Yes</option>
-            <option value="no">No</option>
-          </select>
-        </div>
-        <div class="field">
-          <label>HbA1c (%)</label>
-          <input type="number" id="hba1c" min="3" max="20" step="0.1" placeholder="%"><small>Leave blank if no DM</small>
-        </div>
-      </div>
-      <div class="form-row">
-        <div class="field">
-          <label>Hypertension</label>
-          <select id="htn_status">
-            <option value="">Select...</option>
-            <option value="yes">Yes</option>
-            <option value="no">No</option>
-          </select>
-        </div>
-        <div class="field">
-          <label>Smoking</label>
-          <select id="smoking">
-            <option value="">Select...</option>
-            <option value="yes">Yes</option>
-            <option value="no">No</option>
-            <option value="former">Former</option>
-          </select>
-        </div>
-      </div>
-      <div class="form-row">
-        <div class="field">
-          <label>Pack-Years (if smoker)</label>
-          <input type="number" id="pack_years" min="0" max="200" step="0.1" placeholder="pack-years">
-        </div>
-        <div class="field">
-          <label>Rapid Weight Loss</label>
-          <select id="rapid_weight_loss">
-            <option value="">Select...</option>
-            <option value="yes">Yes</option>
-            <option value="no">No</option>
-          </select>
-        </div>
-      </div>
-      <div class="field">
-        <label>RWL Cause (if applicable)</label>
-        <input type="text" id="rwl_cause" placeholder="e.g., Bariatric surgery, Crash diet">
-      </div>
-      <div class="form-row">
-        <div class="field">
-          <label>Family Hx Gallstones</label>
-          <select id="fam_hx_gallstones">
-            <option value="">Select...</option>
-            <option value="yes">Yes</option>
-            <option value="no">No</option>
-          </select>
-        </div>
-      </div>
-      <div class="card" style="background:#fff3e0;border-color:#ffe0b2;">
-        <div class="card-title" style="color:#e65100;border-color:#ffe0b2;"><span class="icon">⚠️</span> Exclusion Criteria</div>
-        <p style="font-size:0.9rem;color:#bf360c;margin-bottom:12px;">Check all that apply (patient will be flagged):</p>
-        <div class="checkbox-group" id="exclusion_flags">
-          <label class="checkbox-item">
-            <input type="checkbox" value="statin_fibrate"> Statin/Fibrate use
-          </label>
-          <label class="checkbox-item">
-            <input type="checkbox" value="pregnancy"> Pregnancy/Lactation
-          </label>
-          <label class="checkbox-item">
-            <input type="checkbox" value="liver_renal"> Chronic Liver/Renal Disease
-          </label>
-          <label class="checkbox-item">
-            <input type="checkbox" value="alcohol_dep"> Alcohol Dependence
-          </label>
-          <label class="checkbox-item">
-            <input type="checkbox" value="acute_pancreatitis"> Acute Pancreatitis
-          </label>
-        </div>
-        <div class="field" style="margin-top:12px;">
-          <label>Exclusion Warning</label>
-          <input type="text" id="exclusion_warning" placeholder="Any additional exclusion notes">
-        </div>
-      </div>
-    </div>
-
-    <!-- SECTION 3: Lipid Profile -->
-    <div class="card fade-in" id="sec-lipid">
-      <div class="card-title"><span class="icon">🩸</span> Lipid Profile</div>
-      <div class="form-row">
-        <div class="field">
-          <label>Fasting Verified <span class="req">*</span></label>
-          <select id="fasting_verified" required>
-            <option value="">Select...</option>
-            <option value="yes">Yes</option>
-            <option value="no">No</option>
-          </select>
-        </div>
-        <div class="field">
-          <label>Fasting Hours</label>
-          <input type="number" id="fasting_hours" min="8" max="24" placeholder="hours">
-        </div>
-      </div>
-      <div class="form-row">
-        <div class="field">
-          <label>Total Cholesterol (mg/dL) <span class="req">*</span></label>
-          <input type="number" id="tc_mgdl" min="50" max="800" step="0.1" placeholder="mg/dL" required oninput="calcRatio()">
-        </div>
-        <div class="field">
-          <label>Triglycerides (mg/dL) <span class="req">*</span></label>
-          <input type="number" id="tg_mgdl" min="20" max="2000" step="0.1" placeholder="mg/dL" required oninput="calcVLDL()">
-        </div>
-      </div>
-      <div class="form-row">
-        <div class="field">
-          <label>HDL (mg/dL) <span class="req">*</span></label>
-          <input type="number" id="hdl_mgdl" min="10" max="200" step="0.1" placeholder="mg/dL" required oninput="calcRatio();calcLDL()">
-        </div>
-        <div class="field">
-          <label>LDL (mg/dL) <span class="req">*</span></label>
-          <input type="number" id="ldl_mgdl" min="10" max="500" step="0.1" placeholder="mg/dL" required oninput="calcRatio()">
-          <small>Auto-calculated from Friedewald: TC - HDL - (TG/5)</small>
-        </div>
-      </div>
-      <div class="form-row">
-        <div class="field">
-          <label>VLDL (mg/dL)</label>
-          <input type="number" id="vldl_mgdl" min="5" max="400" step="0.1" placeholder="mg/dL" readonly>
-          <small>Auto: TG / 5</small>
-        </div>
-        <div class="field">
-          <label>TC/HDL Ratio</label>
-          <input type="text" id="ratio_display" readonly placeholder="Auto-calculated">
-          <input type="hidden" id="tc_hdl_ratio">
-        </div>
-      </div>
-    </div>
-
-    <!-- SECTION 2b: Thyroid Function -->
-    <div class="card fade-in" id="sec-thyroid">
-      <div class="card-title"><span class="icon">🦋</span> Thyroid Function</div>
-      <div class="form-row">
-        <div class="field">
-          <label>Thyroid Dysfunction</label>
-          <select id="thyroid_status">
-            <option value="">Select...</option>
-            <option value="euthyroid">Euthyroid (Normal)</option>
-            <option value="hypothyroid">Hypothyroidism</option>
-            <option value="hyperthyroid">Hyperthyroidism</option>
-            <option value="subclinical_hypo">Subclinical Hypothyroidism</option>
-            <option value="subclinical_hyper">Subclinical Hyperthyroidism</option>
-            <option value="unknown">Unknown / Not Tested</option>
-          </select>
-        </div>
-        <div class="field">
-          <label>Thyroid Diagnosis Type</label>
-          <select id="thyroid_type">
-            <option value="">Select...</option>
-            <option value="hashimoto">Hashimoto's Thyroiditis</option>
-            <option value="grave">Grave's Disease</option>
-            <option value="nodular">Toxic Nodular Goiter</option>
-            <option value="iatrogenic">Iatrogenic (post-surgery/ablation)</option>
-            <option value="drug_induced">Drug-Induced</option>
-            <option value="other">Other</option>
-            <option value="na">Not Applicable</option>
-          </select>
-        </div>
-      </div>
-      <div class="form-row">
-        <div class="field">
-          <label>TSH (mIU/L)</label>
-          <input type="number" id="tsh_miu_l" placeholder="mIU/L">
-          <small>Reference: 0.4 - 4.0 mIU/L</small>
-        </div>
-        <div class="field">
-          <label>Free T3 (pg/mL)</label>
-          <input type="number" id="ft3_pgmL" placeholder="pg/mL">
-          <small>Reference: 2.3 - 4.2 pg/mL</small>
-        </div>
-      </div>
-      <div class="form-row">
-        <div class="field">
-          <label>Free T4 (ng/dL)</label>
-          <input type="number" id="ft4_ngdl" placeholder="ng/dL">
-          <small>Reference: 0.8 - 1.8 ng/dL</small>
-        </div>
-        <div class="field">
-          <label>Anti-TPO Antibodies (IU/mL)</label>
-          <input type="number" id="anti_tpo" placeholder="IU/mL">
-          <small>Reference: &lt; 34 IU/mL</small>
-        </div>
-      </div>
-      <div class="form-row">
-        <div class="field">
-          <label>On Thyroid Medication</label>
-          <select id="thyroid_meds">
-            <option value="">Select...</option>
-            <option value="levothyroxine">Levothyroxine (T4)</option>
-            <option value="liothyronine">Liothyronine (T3)</option>
-            <option value="combination">Combination T4/T3</option>
-            <option value="methimazole">Methimazole</option>
-            <option value="propylthiouracil">Propylthiouracil (PTU)</option>
-            <option value="carbimazole">Carbimazole</option>
-            <option value="no_meds">No Medication</option>
-            <option value="other">Other</option>
-          </select>
-        </div>
-        <div class="field">
-          <label>Medication Dose (μg or mg)</label>
-          <input type="text" id="thyroid_dose" placeholder="e.g., 100 μg, 10 mg">
-          <small>Leave blank if not on medication</small>
-        </div>
-      </div>
-      <div class="field">
-        <label>Thyroid Ultrasound Findings</label>
-        <textarea id="thyroid_usg" rows="2" placeholder="e.g., Normal, Goiter, Nodules, Hashimoto changes"></textarea>
-      </div>
-      <div class="form-row">
-        <div class="field">
-          <label>Previous Thyroid Surgery</label>
-          <select id="thyroid_surgery">
-            <option value="">Select...</option>
-            <option value="yes">Yes</option>
-            <option value="no">No</option>
-          </select>
-        </div>
-        <div class="field">
-          <label>Radioactive Iodine Treatment</label>
-          <select id="radioactive_iodine">
-            <option value="">Select...</option>
-            <option value="yes">Yes</option>
-            <option value="no">No</option>
-          </select>
-        </div>
-      </div>
-    </div>
-
-
-    <!-- SECTION 4: Imaging -->
-    <div class="card fade-in" id="sec-imaging">
-      <div class="card-title"><span class="icon">📷</span> Imaging</div>
-      <div class="form-row">
-        <div class="field">
-          <label>Imaging Modality <span class="req">*</span></label>
-          <select id="img_modality" required>
-            <option value="">Select...</option>
-            <option value="usg">Ultrasound</option>
-            <option value="ct">CT Scan</option>
-            <option value="mri">MRI/MRCP</option>
-          </select>
-        </div>
-        <div class="field">
-          <label>Stone Number <span class="req">*</span></label>
-          <select id="stone_number" required>
-            <option value="">Select...</option>
-            <option value="solitary">Solitary</option>
-            <option value="multiple">Multiple (&gt;3)</option>
-            <option value="sludge">Sludge Only</option>
-          </select>
-        </div>
-      </div>
-      <div class="form-row">
-        <div class="field">
-          <label>Max Stone Size (mm) <span class="req">*</span></label>
-          <input type="number" id="max_stone_mm" min="1" max="100" step="0.1" placeholder="mm" required>
-        </div>
-        <div class="field">
-          <label>GB Wall Thickness (mm)</label>
-          <input type="number" id="gb_wall_mm" min="1" max="20" step="0.1" placeholder="mm">
-        </div>
-      </div>
-      <div class="form-row">
-        <div class="field">
-          <label>CBD Dilated</label>
-          <select id="cbd_dilated">
-            <option value="">Select...</option>
-            <option value="yes">Yes</option>
-            <option value="no">No</option>
-          </select>
-        </div>
-        <div class="field">
-          <label>CBD Diameter (mm)</label>
-          <input type="number" id="cbd_mm" min="1" max="30" step="0.1" placeholder="mm">
-          <small>Leave blank if not dilated</small>
-        </div>
-      </div>
-      <div class="field">
-        <label>Stone Composition</label>
-        <select id="stone_composition">
-          <option value="">Select...</option>
-          <option value="cholesterol">Cholesterol</option>
-          <option value="pigment">Pigment</option>
-          <option value="mixed">Mixed</option>
-          <option value="not_sent">Not Sent for Analysis</option>
-        </select>
-      </div>
-    </div>
-
-    <!-- SECTION 5: Audit -->
-    <div class="card fade-in" id="sec-audit">
-      <div class="card-title"><span class="icon">✅</span> Quality Audit</div>
-      <div class="field">
-        <label>Quality Checks</label>
-        <div class="checkbox-group">
-          <label class="checkbox-item">
-            <input type="checkbox" value="fields_complete" id="qc_fields"> All required fields complete
-          </label>
-          <label class="checkbox-item">
-            <input type="checkbox" value="values_in_range" id="qc_range"> Values within physiological range
-          </label>
-          <label class="checkbox-item">
-            <input type="checkbox" value="imaging_correlates" id="qc_img"> Imaging correlates with labs
-          </label>
-          <label class="checkbox-item">
-            <input type="checkbox" value="consent_obtained" id="qc_consent"> Informed consent obtained
-          </label>
-        </div>
-      </div>
-      <div class="form-row">
-        <div class="field">
-          <label>Reviewer Signature</label>
-          <input type="text" id="reviewer_signature" placeholder="Type full name as signature">
-        </div>
-        <div class="field">
-          <label>Review Timestamp</label>
-          <input type="datetime-local" id="review_timestamp">
-        </div>
-      </div>
-    </div>
-
-    <!-- Submit -->
-    <div style="text-align:center;margin:30px 0;">
-      <button type="button" class="btn btn-primary btn-block" onclick="submitForm()" id="submitBtn" style="font-size:1.1rem;padding:16px;">
-        🔒 Encrypt & Submit Securely
-      </button>
-      <p style="margin-top:12px;color:#888;font-size:0.85rem;">
-        Data is encrypted with AES-256-GCM in your browser before transmission.
-      </p>
-    </div>
-  </form>
-
-  <div class="footer">
-    Cholelithiasis Lipid Study v1.0 | End-to-End Encrypted | Contact admin for support
-  </div>
-</div>
 
 <script>
-// ========================
-// CONFIGURATION - ADMIN SETS THIS BEFORE DEPLOYING
-// ========================
-// The admin must generate a key and paste it here BEFORE sharing with collectors.
-// Collectors will use this key to encrypt data. The admin uses the SAME key to decrypt.
-// This key is embedded in the HTML but is NOT visible to collectors in the UI.
-const EMBEDDED_KEY = "#F5OOWsCaV@G*CDdM&g8P!8vDy28cLRY";
+// ==================== APPS SCRIPT CONFIG ====================
+// REPLACE THIS WITH YOUR DEPLOYED GOOGLE APPS SCRIPT WEB APP URL
+const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxRJY3GzwnDUj_aSXxE53bHeSmgRpZgiPp2nFWGzoSOQlErUW7JKIA26k1rZ6sMOd9S-A/exec';
+const INVESTIGATOR_PASSWORD = 'ChangeThisToYourSecretPassword123';
+const SURVEYOR_SECRET = 'SURVEYOR_SUBMIT_2024_CLS';
 
-// Google Apps Script Web App URL - also set by admin
-const BACKEND_URL = "https://script.google.com/macros/s/AKfycby2DM4sv3FJObLg1UbV04k2HLXL1mZEKrFB6OKKiYPTD6wuag3k-A50aQt_Uako2QQ/exec";
+// ==================== STATE ====================
+let currentRole = 'investigator';
+let encryptionKey = null;
+const STORAGE_KEY = 'cls_study_data';
+const KEY_STORAGE = 'cls_study_key_hash';
+const SURVEYOR_STORAGE = 'cls_surveyor_temp';
+const SURVEYOR_KEY = 'CLS_SURVEYOR_TEMP_KEY_2024';
 
-// ========================
-// ENCRYPTION ENGINE
-// ========================
-const ENC = {
-  async deriveKey(password, salt) {
-    const enc = new TextEncoder();
-    const keyMaterial = await crypto.subtle.importKey(
-      'raw', enc.encode(password), 'PBKDF2', false, ['deriveKey']
-    );
+// ==================== ENCRYPTION ====================
+async function deriveKey(password, salt) {
+    const encoder = new TextEncoder();
+    const keyMaterial = await crypto.subtle.importKey('raw', encoder.encode(password), 'PBKDF2', false, ['deriveKey']);
     return crypto.subtle.deriveKey(
-      { name: 'PBKDF2', salt, iterations: 200000, hash: 'SHA-256' },
-      keyMaterial, { name: 'AES-GCM', length: 256 }, false, ['encrypt']
+        { name: 'PBKDF2', salt: salt, iterations: 100000, hash: 'SHA-256' },
+        keyMaterial, { name: 'AES-GCM', length: 256 }, false, ['encrypt', 'decrypt']
     );
-  },
+}
 
-  async encrypt(plaintext, password) {
+async function encryptData(data, password) {
+    const encoder = new TextEncoder();
     const salt = crypto.getRandomValues(new Uint8Array(16));
     const iv = crypto.getRandomValues(new Uint8Array(12));
-    const key = await this.deriveKey(password, salt);
-    const enc = new TextEncoder();
-    const ciphertext = await crypto.subtle.encrypt(
-      { name: 'AES-GCM', iv }, key, enc.encode(plaintext)
-    );
+    const key = await deriveKey(password, salt);
+    const encrypted = await crypto.subtle.encrypt({ name: 'AES-GCM', iv: iv }, key, encoder.encode(JSON.stringify(data)));
+    return { salt: Array.from(salt), iv: Array.from(iv), data: Array.from(new Uint8Array(encrypted)), version: 1, createdAt: new Date().toISOString() };
+}
+
+async function decryptData(encryptedObj, password) {
+    try {
+        const salt = new Uint8Array(encryptedObj.salt);
+        const iv = new Uint8Array(encryptedObj.iv);
+        const data = new Uint8Array(encryptedObj.data);
+        const key = await deriveKey(password, salt);
+        const decrypted = await crypto.subtle.decrypt({ name: 'AES-GCM', iv: iv }, key, data);
+        return JSON.parse(new TextDecoder().decode(decrypted));
+    } catch (e) { return null; }
+}
+
+async function hashKey(key) {
+    const hash = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(key));
+    return Array.from(new Uint8Array(hash)).map(b => b.toString(16).padStart(2, '0')).join('');
+}
+
+async function verifyKey(key) {
+    const storedHash = localStorage.getItem(KEY_STORAGE);
+    if (!storedHash) return true;
+    return (await hashKey(key)) === storedHash;
+}
+
+async function storeKeyHash(key) {
+    localStorage.setItem(KEY_STORAGE, await hashKey(key));
+}
+
+// ==================== ROLE SELECTION ====================
+function selectRole(role) {
+    currentRole = role;
+    document.querySelectorAll('.role-btn').forEach(btn => btn.classList.remove('active'));
+    document.getElementById(role === 'investigator' ? 'btnInvestigator' : 'btnSurveyor').classList.add('active');
+    document.getElementById('investigatorLogin').classList.toggle('hidden', role !== 'investigator');
+    document.getElementById('surveyorLogin').classList.toggle('hidden', role !== 'surveyor');
+}
+
+// ==================== LOGIN / LOGOUT ====================
+async function investigatorLogin() {
+    const key = document.getElementById('investigatorKey').value;
+    if (!key || key.length < 8) { alert('Encryption key must be at least 8 characters'); return; }
+    if (!(await verifyKey(key))) { alert('Wrong encryption key!'); return; }
+
+    encryptionKey = key;
+    await storeKeyHash(key);
+    document.getElementById('loginScreen').classList.add('hidden');
+    document.getElementById('investigatorApp').classList.remove('hidden');
+    document.getElementById('currentKeyDisplay').textContent = key.substring(0, 4) + '****' + key.substring(key.length - 4);
+    generateShareableLink();
+    drawQRCode();
+    updateStats();
+    renderRecords();
+    document.getElementById('iv_collection_date').valueAsDate = new Date();
+}
+
+async function surveyorLogin() {
+    document.getElementById('loginScreen').classList.add('hidden');
+    document.getElementById('surveyorApp').classList.remove('hidden');
+    document.getElementById('sv_collection_date').valueAsDate = new Date();
+}
+
+function logout() {
+    encryptionKey = null;
+    currentRole = null;
+    document.getElementById('investigatorApp').classList.add('hidden');
+    document.getElementById('surveyorApp').classList.add('hidden');
+    document.getElementById('loginScreen').classList.remove('hidden');
+    document.getElementById('investigatorKey').value = '';
+    document.getElementById('drivePanel').classList.add('hidden');
+}
+
+function goToMain() {
+    document.getElementById('surveyorApp').classList.add('hidden');
+    document.getElementById('investigatorApp').classList.add('hidden');
+    document.getElementById('loginScreen').classList.remove('hidden');
+    selectRole('investigator');
+}
+
+// ==================== AUTO-DETECT SURVEYOR MODE ====================
+function checkSurveyorMode() {
+    const urlParams = new URLSearchParams(window.location.search);
+    if (urlParams.get('mode') === 'surveyor') {
+        document.getElementById('loginScreen').classList.add('hidden');
+        document.getElementById('surveyorApp').classList.remove('hidden');
+        document.getElementById('sv_collection_date').valueAsDate = new Date();
+        return true;
+    }
+    return false;
+}
+
+// ==================== SHAREABLE LINK ====================
+function generateShareableLink() {
+    const base = window.location.origin + window.location.pathname;
+    document.getElementById('shareableLink').textContent = base + '?mode=surveyor';
+}
+
+function copyLink() {
+    navigator.clipboard.writeText(document.getElementById('shareableLink').textContent).then(() => alert('✅ Link copied!'));
+}
+
+function drawQRCode() {
+    const canvas = document.getElementById('qrCanvas');
+    const ctx = canvas.getContext('2d');
+    ctx.fillStyle = 'white'; ctx.fillRect(0, 0, 200, 200);
+    ctx.fillStyle = '#1565c0';
+    function drawFinder(x, y) { ctx.fillRect(x, y, 42, 42); ctx.clearRect(x+6, y+6, 30, 30); ctx.fillRect(x+12, y+12, 18, 18); }
+    drawFinder(10, 10); drawFinder(148, 10); drawFinder(10, 148);
+    for (let i = 0; i < 200; i++) {
+        const x = Math.floor(Math.random() * 140) + 30;
+        const y = Math.floor(Math.random() * 140) + 30;
+        if ((x < 60 && y < 60) || (x > 140 && y < 60) || (x < 60 && y > 140)) continue;
+        ctx.fillRect(x, y, 3, 3);
+    }
+    ctx.fillStyle = '#757575'; ctx.font = '10px sans-serif'; ctx.textAlign = 'center';
+    ctx.fillText('Scan to open surveyor form', 100, 195);
+}
+
+// ==================== DATA OPERATIONS ====================
+async function getData() {
+    const stored = localStorage.getItem(STORAGE_KEY);
+    if (!stored || !encryptionKey) return [];
+    return await decryptData(JSON.parse(stored), encryptionKey) || [];
+}
+
+async function saveData(data) {
+    if (!encryptionKey) { alert('No encryption key set'); return; }
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(await encryptData(data, encryptionKey)));
+    updateSyncStatus('local');
+}
+
+// ==================== CALCULATIONS ====================
+function sv_calcBMI() {
+    const h = parseFloat(document.getElementById('sv_height_cm').value);
+    const w = parseFloat(document.getElementById('sv_weight_kg').value);
+    if (h && w) document.getElementById('sv_bmi_display').value = (w / ((h / 100) ** 2)).toFixed(2) + ' kg/m²';
+}
+function sv_calcVLDL() {
+    const tg = parseFloat(document.getElementById('sv_tg_mgdl').value);
+    if (tg) document.getElementById('sv_vldl_mgdl').value = (tg / 5).toFixed(1);
+    sv_calcLDL();
+}
+function sv_calcLDL() {
+    const tc = parseFloat(document.getElementById('sv_tc_mgdl').value);
+    const hdl = parseFloat(document.getElementById('sv_hdl_mgdl').value);
+    const tg = parseFloat(document.getElementById('sv_tg_mgdl').value);
+    if (tc && hdl && tg) {
+        const ldl = tc - hdl - (tg / 5);
+        if (ldl > 0) document.getElementById('sv_ldl_mgdl').value = ldl.toFixed(1);
+    }
+}
+function sv_calcRatio() {
+    const tc = parseFloat(document.getElementById('sv_tc_mgdl').value);
+    const hdl = parseFloat(document.getElementById('sv_hdl_mgdl').value);
+    if (tc && hdl && hdl > 0) document.getElementById('sv_ratio_display').value = (tc / hdl).toFixed(2);
+}
+function sv_toggleOtherEthnicity() {
+    document.getElementById('sv_ethnicity_other_field').style.display = document.getElementById('sv_ethnicity_other_checkbox').checked ? 'block' : 'none';
+}
+
+function iv_calcBMI() {
+    const h = parseFloat(document.getElementById('iv_height_cm').value);
+    const w = parseFloat(document.getElementById('iv_weight_kg').value);
+    if (h && w) document.getElementById('iv_bmi_display').value = (w / ((h / 100) ** 2)).toFixed(2) + ' kg/m²';
+}
+function iv_calcVLDL() {
+    const tg = parseFloat(document.getElementById('iv_tg_mgdl').value);
+    if (tg) document.getElementById('iv_vldl_mgdl').value = (tg / 5).toFixed(1);
+    iv_calcLDL();
+}
+function iv_calcLDL() {
+    const tc = parseFloat(document.getElementById('iv_tc_mgdl').value);
+    const hdl = parseFloat(document.getElementById('iv_hdl_mgdl').value);
+    const tg = parseFloat(document.getElementById('iv_tg_mgdl').value);
+    if (tc && hdl && tg) {
+        const ldl = tc - hdl - (tg / 5);
+        if (ldl > 0) document.getElementById('iv_ldl_mgdl').value = ldl.toFixed(1);
+    }
+}
+function iv_calcRatio() {
+    const tc = parseFloat(document.getElementById('iv_tc_mgdl').value);
+    const hdl = parseFloat(document.getElementById('iv_hdl_mgdl').value);
+    if (tc && hdl && hdl > 0) document.getElementById('iv_ratio_display').value = (tc / hdl).toFixed(2);
+}
+function iv_toggleOtherEthnicity() {
+    document.getElementById('iv_ethnicity_other_field').style.display = document.getElementById('iv_ethnicity_other_checkbox').checked ? 'block' : 'none';
+}
+
+// ==================== FORM HELPERS ====================
+function getCheckboxValues(containerId) {
+    return Array.from(document.querySelectorAll('#' + containerId + ' input:checked')).map(cb => cb.value);
+}
+
+function buildFormData(prefix) {
+    const p = prefix;
     return {
-      encrypted: Array.from(new Uint8Array(ciphertext)),
-      iv: Array.from(iv),
-      salt: Array.from(salt)
+        study_id: document.getElementById(p + '_study_id').value,
+        patient_name: document.getElementById(p + '_patient_name').value,
+        collection_date: document.getElementById(p + '_collection_date').value,
+        collector_initials: document.getElementById(p + '_collector_initials').value,
+        age_years: document.getElementById(p + '_age_years').value,
+        sex: document.getElementById(p + '_sex').value,
+        parity: document.getElementById(p + '_parity').value,
+        ocp_use: document.getElementById(p + '_ocp_use').value,
+        height_cm: document.getElementById(p + '_height_cm').value,
+        weight_kg: document.getElementById(p + '_weight_kg').value,
+        bmi: (document.getElementById(p + '_bmi_display').value || '').replace(' kg/m²', ''),
+        waist_cm: document.getElementById(p + '_waist_cm').value,
+        ethnicity: getCheckboxValues(p + '_ethnicity_flags'),
+        ethnicity_other: document.getElementById(p + '_ethnicity_other_text')?.value || '',
+        diet_peas_chatpati: document.getElementById(p + '_diet_peas_chatpati').value,
+        dm_status: document.getElementById(p + '_dm_status').value,
+        hba1c: document.getElementById(p + '_hba1c').value,
+        htn_status: document.getElementById(p + '_htn_status').value,
+        smoking: document.getElementById(p + '_smoking').value,
+        pack_years: document.getElementById(p + '_pack_years').value,
+        rapid_weight_loss: document.getElementById(p + '_rapid_weight_loss').value,
+        rwl_cause: document.getElementById(p + '_rwl_cause').value,
+        fam_hx_gallstones: document.getElementById(p + '_fam_hx_gallstones').value,
+        exclusion_flags: getCheckboxValues(p + '_exclusion_flags'),
+        exclusion_warning: document.getElementById(p + '_exclusion_warning').value,
+        fasting_verified: document.getElementById(p + '_fasting_verified').value,
+        fasting_hours: document.getElementById(p + '_fasting_hours').value,
+        tc_mgdl: document.getElementById(p + '_tc_mgdl').value,
+        tg_mgdl: document.getElementById(p + '_tg_mgdl').value,
+        hdl_mgdl: document.getElementById(p + '_hdl_mgdl').value,
+        ldl_mgdl: document.getElementById(p + '_ldl_mgdl').value,
+        vldl_mgdl: document.getElementById(p + '_vldl_mgdl').value,
+        tc_hdl_ratio: document.getElementById(p + '_ratio_display').value,
+        thyroid_status: document.getElementById(p + '_thyroid_status').value,
+        thyroid_type: document.getElementById(p + '_thyroid_type').value,
+        tsh_miu_l: document.getElementById(p + '_tsh_miu_l').value,
+        ft3_pgmL: document.getElementById(p + '_ft3_pgmL').value,
+        ft4_ngdl: document.getElementById(p + '_ft4_ngdl').value,
+        anti_tpo: document.getElementById(p + '_anti_tpo').value,
+        thyroid_meds: document.getElementById(p + '_thyroid_meds').value,
+        thyroid_dose: document.getElementById(p + '_thyroid_dose').value,
+        thyroid_usg: document.getElementById(p + '_thyroid_usg').value,
+        thyroid_surgery: document.getElementById(p + '_thyroid_surgery').value,
+        radioactive_iodine: document.getElementById(p + '_radioactive_iodine').value,
+        img_modality: document.getElementById(p + '_img_modality').value,
+        stone_number: document.getElementById(p + '_stone_number').value,
+        max_stone_mm: document.getElementById(p + '_max_stone_mm').value,
+        gb_wall_mm: document.getElementById(p + '_gb_wall_mm').value,
+        cbd_dilated: document.getElementById(p + '_cbd_dilated').value,
+        cbd_mm: document.getElementById(p + '_cbd_mm').value,
+        stone_composition: document.getElementById(p + '_stone_composition').value,
+        quality_checks: prefix === 'iv' ? [
+            ...(document.getElementById('iv_qc_fields')?.checked ? ['fields_complete'] : []),
+            ...(document.getElementById('iv_qc_range')?.checked ? ['values_in_range'] : []),
+            ...(document.getElementById('iv_qc_img')?.checked ? ['imaging_correlates'] : []),
+            ...(document.getElementById('iv_qc_consent')?.checked ? ['consent_obtained'] : [])
+        ] : [],
+        reviewer_signature: prefix === 'iv' ? document.getElementById('iv_reviewer_signature').value : '',
+        review_timestamp: prefix === 'iv' ? document.getElementById('iv_review_timestamp').value : '',
+        entryDate: new Date().toISOString(),
+        id: 'cls-' + Date.now() + '-' + Math.random().toString(36).substr(2, 9),
+        source: prefix === 'iv' ? 'investigator' : 'surveyor'
     };
-  }
-};
-
-// ========================
-// CALCULATIONS
-// ========================
-function calcBMI() {
-  const h = parseFloat(document.getElementById('height_cm').value);
-  const w = parseFloat(document.getElementById('weight_kg').value);
-  if (h && w) {
-    const bmi = (w / ((h / 100) ** 2)).toFixed(2);
-    document.getElementById('bmi').value = bmi;
-    document.getElementById('bmi_display').value = bmi + ' kg/m²';
-  }
-}
-function calcVLDL() {
-  const tg = parseFloat(document.getElementById('tg_mgdl').value);
-  if (tg) document.getElementById('vldl_mgdl').value = (tg / 5).toFixed(1);
-  calcLDL();
-}
-function calcLDL() {
-  const tc = parseFloat(document.getElementById('tc_mgdl').value);
-  const hdl = parseFloat(document.getElementById('hdl_mgdl').value);
-  const tg = parseFloat(document.getElementById('tg_mgdl').value);
-  if (tc && hdl && tg) {
-    const ldl = tc - hdl - (tg / 5);
-    if (ldl > 0) document.getElementById('ldl_mgdl').value = ldl.toFixed(1);
-  }
-}
-function calcRatio() {
-  const tc = parseFloat(document.getElementById('tc_mgdl').value);
-  const hdl = parseFloat(document.getElementById('hdl_mgdl').value);
-  if (tc && hdl && hdl > 0) {
-    const ratio = (tc / hdl).toFixed(2);
-    document.getElementById('tc_hdl_ratio').value = ratio;
-    document.getElementById('ratio_display').value = ratio;
-  }
 }
 
-// ========================
-// ALERTS
-// ========================
-function showAlert(msg, type) {
-  const div = document.createElement('div');
-  div.className = 'alert alert-' + type + ' fade-in';
-  div.innerHTML = msg;
-  const container = document.querySelector('.container');
-  container.insertBefore(div, container.children[1]);
-  setTimeout(() => div.remove(), 6000);
-}
+// ==================== SURVEYOR OPERATIONS ====================
+let surveyorEntries = [];
 
-// ========================
-// FORM SUBMISSION
-// ========================
-async function submitForm() {
-  // Check if admin has configured the key
-  if (EMBEDDED_KEY === "REPLACE_THIS_WITH_YOUR_GENERATED_KEY" || !EMBEDDED_KEY || EMBEDDED_KEY.length < 8) {
-    showAlert('⚠️ This form is not yet configured. Please contact the study administrator.', 'error');
-    return;
-  }
+async function surveyorSubmit(shouldClear) {
+    const btn = document.getElementById('sv_submitBtn');
+    btn.disabled = true;
+    btn.innerHTML = '🔐 Encrypting & Saving...';
 
-  // Check if backend URL is configured
-  if (BACKEND_URL === "REPLACE_THIS_WITH_YOUR_GAS_URL" || !BACKEND_URL) {
-    showAlert('⚠️ Backend not configured. Please contact the study administrator.', 'error');
-    return;
-  }
-
-  // Validate required fields
-  const required = ['study_id', 'patient_name', 'collection_date', 'age_years', 'sex', 
-                    'height_cm', 'weight_kg', 'fasting_verified', 'tc_mgdl', 'tg_mgdl', 
-                    'hdl_mgdl', 'ldl_mgdl', 'img_modality', 'stone_number', 'max_stone_mm'];
-  for (const id of required) {
-    const el = document.getElementById(id);
-    if (!el || !el.value.trim()) {
-      showAlert('⚠️ Please fill all required fields. Missing: ' + id.replace(/_/g, ' '), 'error');
-      el?.focus();
-      return;
-    }
-  }
-
-  // Gather data
-  const formData = {
-    study_id: document.getElementById('study_id').value,
-    patient_name: document.getElementById('patient_name').value,
-    collection_date: document.getElementById('collection_date').value,
-    collector_initials: document.getElementById('collector_initials').value,
-    age_years: document.getElementById('age_years').value,
-    sex: document.getElementById('sex').value,
-    parity: document.getElementById('parity').value,
-    ocp_use: document.getElementById('ocp_use').value,
-    height_cm: document.getElementById('height_cm').value,
-    weight_kg: document.getElementById('weight_kg').value,
-    bmi: document.getElementById('bmi').value,
-    waist_cm: document.getElementById('waist_cm').value,
-    dm_status: document.getElementById('dm_status').value,
-    hba1c: document.getElementById('hba1c').value,
-    htn_status: document.getElementById('htn_status').value,
-    smoking: document.getElementById('smoking').value,
-    pack_years: document.getElementById('pack_years').value,
-    rapid_weight_loss: document.getElementById('rapid_weight_loss').value,
-    rwl_cause: document.getElementById('rwl_cause').value,
-    fam_hx_gallstones: document.getElementById('fam_hx_gallstones').value,
-    thyroid_status: document.getElementById('thyroid_status').value,
-    thyroid_type: document.getElementById('thyroid_type').value,
-    tsh_miu_l: document.getElementById('tsh_miu_l').value,
-    ft3_pgmL: document.getElementById('ft3_pgmL').value,
-    ft4_ngdl: document.getElementById('ft4_ngdl').value,
-    anti_tpo: document.getElementById('anti_tpo').value,
-    thyroid_meds: document.getElementById('thyroid_meds').value,
-    thyroid_dose: document.getElementById('thyroid_dose').value,
-    thyroid_usg: document.getElementById('thyroid_usg').value,
-    thyroid_surgery: document.getElementById('thyroid_surgery').value,
-    radioactive_iodine: document.getElementById('radioactive_iodine').value,
-
-    exclusion_warning: document.getElementById('exclusion_warning').value,
-    exclusion_flags: Array.from(document.querySelectorAll('#exclusion_flags input:checked')).map(cb => cb.value),
-    fasting_verified: document.getElementById('fasting_verified').value,
-    fasting_hours: document.getElementById('fasting_hours').value,
-    tc_mgdl: document.getElementById('tc_mgdl').value,
-    tg_mgdl: document.getElementById('tg_mgdl').value,
-    hdl_mgdl: document.getElementById('hdl_mgdl').value,
-    ldl_mgdl: document.getElementById('ldl_mgdl').value,
-    vldl_mgdl: document.getElementById('vldl_mgdl').value,
-    tc_hdl_ratio: document.getElementById('tc_hdl_ratio').value,
-    img_modality: document.getElementById('img_modality').value,
-    stone_number: document.getElementById('stone_number').value,
-    max_stone_mm: document.getElementById('max_stone_mm').value,
-    gb_wall_mm: document.getElementById('gb_wall_mm').value,
-    cbd_dilated: document.getElementById('cbd_dilated').value,
-    cbd_mm: document.getElementById('cbd_mm').value,
-    stone_composition: document.getElementById('stone_composition').value,
-    quality_checks: Array.from(document.querySelectorAll('#sec-audit .checkbox-group input:checked')).map(cb => cb.value),
-    reviewer_signature: document.getElementById('reviewer_signature').value,
-    review_timestamp: document.getElementById('review_timestamp').value,
-    submitted_at: new Date().toISOString(),
-    instanceID: 'uuid-' + crypto.randomUUID()
-  };
-
-  const btn = document.getElementById('submitBtn');
-  btn.disabled = true;
-  btn.innerHTML = '🔐 Encrypting...';
-
-  try {
-    // Encrypt with the admin's embedded key (collectors don't see this)
-    const payload = JSON.stringify(formData);
-    const encrypted = await ENC.encrypt(payload, EMBEDDED_KEY);
-
-    // Send to Google Apps Script backend
-    const response = await fetch(BACKEND_URL, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        study_id: formData.study_id,
-        patient_name: formData.patient_name,
-        encrypted: JSON.stringify(encrypted.encrypted),
-        iv: JSON.stringify(encrypted.iv),
-        salt: JSON.stringify(encrypted.salt),
-        collector_info: formData.collector_initials || 'Web Form'
-      })
-    });
-
-    const result = await response.json();
-
-    if (result.success) {
-      showAlert('✅ Record encrypted and saved successfully! Study ID: ' + formData.study_id, 'success');
-      document.getElementById('studyForm').reset();
-      document.getElementById('bmi_display').value = '';
-      document.getElementById('ratio_display').value = '';
-      document.getElementById('vldl_mgdl').value = '';
-      document.getElementById('collection_date').valueAsDate = new Date();
-    } else {
-      showAlert('❌ Server error: ' + (result.message || 'Unknown error'), 'error');
+    const required = ['sv_study_id', 'sv_patient_name', 'sv_collection_date', 'sv_age_years', 'sv_sex', 
+                      'sv_height_cm', 'sv_weight_kg', 'sv_fasting_verified', 'sv_tc_mgdl', 'sv_tg_mgdl', 
+                      'sv_hdl_mgdl', 'sv_ldl_mgdl', 'sv_img_modality', 'sv_stone_number', 'sv_max_stone_mm',
+                      'sv_diet_peas_chatpati'];
+    for (const id of required) {
+        const el = document.getElementById(id);
+        if (!el || !el.value.trim()) {
+            alert('Please fill all required fields.');
+            el?.focus();
+            btn.disabled = false;
+            btn.innerHTML = '🔒 Encrypt & Save';
+            return;
+        }
     }
 
-  } catch (err) {
-    showAlert('❌ Network error: ' + err.message + '. Check your connection and try again.', 'error');
-  } finally {
+    const entry = buildFormData('sv');
+    surveyorEntries.push(entry);
+
+    const encrypted = await encryptData(surveyorEntries, SURVEYOR_KEY);
+    localStorage.setItem(SURVEYOR_STORAGE, JSON.stringify(encrypted));
+
+    document.getElementById('surveyorSuccess').classList.remove('hidden');
+    document.getElementById('surveyorSyncStatus').innerHTML = `✅ <strong>${surveyorEntries.length}</strong> entries saved locally`;
+
+    // Always sync to Drive
+    document.getElementById('surveyorCloudStatus').textContent = '⏳ Syncing to Drive...';
+    await syncSurveyorToDrive();
+
     btn.disabled = false;
-    btn.innerHTML = '🔒 Encrypt & Submit Securely';
-  }
+    btn.innerHTML = '🔒 Encrypt & Save';
+
+    if (shouldClear) {
+        document.getElementById('surveyorForm').reset();
+        document.getElementById('sv_collection_date').valueAsDate = new Date();
+        document.getElementById('sv_bmi_display').value = '';
+        document.getElementById('sv_ratio_display').value = '';
+        document.getElementById('sv_vldl_mgdl').value = '';
+    }
 }
 
-// Checkbox styling
-document.addEventListener('change', function(e) {
-  if (e.target.type === 'checkbox') {
-    e.target.closest('.checkbox-item')?.classList.toggle('checked', e.target.checked);
-  }
-});
+async function syncSurveyorToDrive() {
+    if (surveyorEntries.length === 0) return;
+    try {
+        const encrypted = await encryptData(surveyorEntries, SURVEYOR_KEY);
+        const payload = { action: 'collect', secret: SURVEYOR_SECRET, encryptedData: encrypted, device: navigator.userAgent.substring(0, 50), submissionId: Date.now().toString() };
+        const response = await fetch(APPS_SCRIPT_URL, { method: 'POST', redirect: 'follow', headers: { 'Content-Type': 'text/plain;charset=utf-8' }, body: JSON.stringify(payload) });
+        const result = await response.json();
+        if (result.success) {
+            document.getElementById('surveyorCloudStatus').innerHTML = `<span style="color: #2e7d32;">☁️ Synced to Drive! Total submissions: ${result.submissionCount}</span>`;
+        } else throw new Error(result.message);
+    } catch (err) {
+        document.getElementById('surveyorCloudStatus').innerHTML = `<span style="color: #c62828;">❌ Sync failed: ${err.message}</span>`;
+    }
+}
 
-// Set today's date
-document.getElementById('collection_date').valueAsDate = new Date();
+async function downloadSurveyorData() {
+    if (surveyorEntries.length === 0) {
+        const stored = localStorage.getItem(SURVEYOR_STORAGE);
+        if (stored) {
+            const decrypted = await decryptData(JSON.parse(stored), SURVEYOR_KEY);
+            if (decrypted && decrypted.length > 0) surveyorEntries = decrypted;
+        }
+        if (surveyorEntries.length === 0) { alert('No data to download'); return; }
+    }
+    const encrypted = await encryptData(surveyorEntries, SURVEYOR_KEY);
+    const blob = new Blob([JSON.stringify(encrypted)], { type: 'application/json' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = `cls-surveyor-data-${surveyorEntries.length}-entries-${new Date().toISOString().split('T')[0]}.json`;
+    a.click();
+    URL.revokeObjectURL(url);
+    alert(`✅ ${surveyorEntries.length} entries downloaded!`);
+}
+
+// ==================== INVESTIGATOR ENTRY ====================
+async function saveInvestigatorEntry(e) {
+    e.preventDefault();
+    const required = ['iv_study_id', 'iv_patient_name', 'iv_collection_date', 'iv_age_years', 'iv_sex', 
+                      'iv_height_cm', 'iv_weight_kg', 'iv_fasting_verified', 'iv_tc_mgdl', 'iv_tg_mgdl', 
+                      'iv_hdl_mgdl', 'iv_ldl_mgdl', 'iv_img_modality', 'iv_stone_number', 'iv_max_stone_mm',
+                      'iv_diet_peas_chatpati'];
+    for (const id of required) {
+        const el = document.getElementById(id);
+        if (!el || !el.value.trim()) {
+            alert('Please fill all required fields.');
+            el?.focus();
+            return;
+        }
+    }
+
+    const entry = buildFormData('iv');
+    const data = await getData();
+    data.push(entry);
+    await saveData(data);
+    updateSyncStatus('pending');
+    updateStats();
+    renderRecords();
+    alert('✅ Record saved!');
+    document.getElementById('investigatorForm').reset();
+    document.getElementById('iv_collection_date').valueAsDate = new Date();
+    document.getElementById('iv_bmi_display').value = '';
+    document.getElementById('iv_ratio_display').value = '';
+    document.getElementById('iv_vldl_mgdl').value = '';
+}
+
+// ==================== DRIVE OPERATIONS ====================
+async function saveToDrive() {
+    if (!encryptionKey) { alert('Login first'); return; }
+    const data = await getData();
+    if (data.length === 0) { alert('No data to backup'); return; }
+
+    document.getElementById('uploadProgress').classList.remove('hidden');
+    document.getElementById('progressFill').style.width = '30%';
+    document.getElementById('uploadStatus').textContent = 'Encrypting...';
+
+    try {
+        const encrypted = await encryptData(data, encryptionKey);
+        document.getElementById('progressFill').style.width = '60%';
+        document.getElementById('uploadStatus').textContent = 'Uploading...';
+
+        const response = await fetch(APPS_SCRIPT_URL, {
+            method: 'POST', redirect: 'follow',
+            headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+            body: JSON.stringify({ action: 'save', password: INVESTIGATOR_PASSWORD, encryptedData: encrypted })
+        });
+        const result = await response.json();
+
+        if (result.success) {
+            document.getElementById('progressFill').style.width = '100%';
+            document.getElementById('uploadStatus').textContent = '✅ Saved to Drive!';
+            updateSyncStatus('synced');
+            setTimeout(() => { document.getElementById('uploadProgress').classList.add('hidden'); document.getElementById('progressFill').style.width = '0%'; }, 3000);
+        } else throw new Error(result.message);
+    } catch (err) {
+        document.getElementById('uploadProgress').classList.add('hidden');
+        alert('❌ Save failed: ' + err.message);
+    }
+}
+
+async function loadFromDrive() {
+    if (!encryptionKey) { alert('Login first'); return; }
+    const localData = await getData();
+    const hasLocalData = localData.length > 0;
+    let mergeMode = false;
+    if (hasLocalData) {
+        mergeMode = confirm(`⚠️ You have ${localData.length} local entries.\n\nClick OK to MERGE with Drive (keeps both).\nClick Cancel to REPLACE with Drive (loses local data).`);
+    }
+
+    document.getElementById('uploadProgress').classList.remove('hidden');
+    document.getElementById('progressFill').style.width = '30%';
+    document.getElementById('uploadStatus').textContent = 'Fetching from Drive...';
+
+    try {
+        const response = await fetch(APPS_SCRIPT_URL + '?action=get');
+        const encryptedData = await response.json();
+
+        if (!encryptedData.data || encryptedData.data.length === 0) {
+            alert('No data in Drive');
+            document.getElementById('uploadProgress').classList.add('hidden');
+            return;
+        }
+
+        document.getElementById('progressFill').style.width = '60%';
+        document.getElementById('uploadStatus').textContent = 'Decrypting...';
+
+        const driveData = await decryptData(encryptedData, encryptionKey);
+        if (!driveData) { alert('Wrong key or corrupted data'); document.getElementById('uploadProgress').classList.add('hidden'); return; }
+
+        document.getElementById('progressFill').style.width = '80%';
+        document.getElementById('uploadStatus').textContent = 'Merging...';
+
+        let finalData;
+        let dupesSkipped = 0;
+
+        if (mergeMode && hasLocalData) {
+            const existingIds = new Set(localData.map(e => e.id));
+            finalData = [...localData];
+            driveData.forEach(entry => {
+                if (!existingIds.has(entry.id)) { finalData.push(entry); } else { dupesSkipped++; }
+            });
+        } else {
+            finalData = driveData;
+        }
+
+        await saveData(finalData);
+        document.getElementById('progressFill').style.width = '100%';
+        document.getElementById('uploadStatus').textContent = mergeMode ? `✅ Merged: ${finalData.length} total (${dupesSkipped} dupes skipped)` : `✅ Loaded ${finalData.length} records from Drive`;
+        updateSyncStatus('synced');
+        updateStats(); renderRecords();
+        setTimeout(() => { document.getElementById('uploadProgress').classList.add('hidden'); document.getElementById('progressFill').style.width = '0%'; }, 4000);
+    } catch (err) {
+        document.getElementById('uploadProgress').classList.add('hidden');
+        alert('❌ Load failed: ' + err.message);
+    }
+}
+
+async function loadSurveyorSubmissionsFromDrive() {
+    if (!encryptionKey) { alert('Login first'); return; }
+
+    document.getElementById('uploadProgress').classList.remove('hidden');
+    document.getElementById('progressFill').style.width = '30%';
+    document.getElementById('uploadStatus').textContent = 'Fetching surveyor submissions...';
+
+    try {
+        const response = await fetch(APPS_SCRIPT_URL + '?action=getCollectors');
+        const data = await response.json();
+
+        if (!data.submissions || data.submissions.length === 0) {
+            alert('No surveyor submissions in Drive');
+            document.getElementById('uploadProgress').classList.add('hidden');
+            return;
+        }
+
+        document.getElementById('progressFill').style.width = '50%';
+        document.getElementById('uploadStatus').textContent = `Found ${data.submissions.length} submission(s)...`;
+
+        let totalNew = 0, duplicatesSkipped = 0;
+        const currentData = await getData();
+        const existingIds = new Set(currentData.map(e => e.id));
+
+        for (const sub of data.submissions) {
+            try {
+                const surveyorData = await decryptData(sub.encryptedData, SURVEYOR_KEY);
+                if (!surveyorData || !Array.isArray(surveyorData)) continue;
+                surveyorData.forEach(entry => {
+                    if (existingIds.has(entry.id)) { duplicatesSkipped++; return; }
+                    entry.importedAt = new Date().toISOString();
+                    entry.originalSource = entry.source;
+                    entry.source = 'surveyor-imported';
+                    entry.submittedAt = sub.submittedAt;
+                    currentData.push(entry);
+                    existingIds.add(entry.id);
+                    totalNew++;
+                });
+            } catch (e) { console.error('Failed to decrypt submission:', e); }
+        }
+
+        document.getElementById('progressFill').style.width = '80%';
+        await saveData(currentData);
+
+        const shouldClear = confirm(`Import complete!\n\n✅ New entries: ${totalNew}\n⏭️ Duplicates skipped: ${duplicatesSkipped}\n\nClear surveyor queue from Drive?`);
+        if (shouldClear) {
+            document.getElementById('uploadStatus').textContent = 'Clearing queue...';
+            await fetch(APPS_SCRIPT_URL, { method: 'POST', redirect: 'follow', headers: { 'Content-Type': 'text/plain;charset=utf-8' }, body: JSON.stringify({ action: 'clearCollectors', password: INVESTIGATOR_PASSWORD }) });
+        }
+
+        document.getElementById('progressFill').style.width = '100%';
+        document.getElementById('uploadStatus').textContent = `✅ Merged ${totalNew} new entries`;
+        updateSyncStatus('pending');
+        updateStats(); renderRecords();
+        setTimeout(() => { document.getElementById('uploadProgress').classList.add('hidden'); document.getElementById('progressFill').style.width = '0%'; }, 3000);
+    } catch (err) {
+        document.getElementById('uploadProgress').classList.add('hidden');
+        alert('❌ Failed: ' + err.message);
+    }
+}
+
+// ==================== FILE IMPORT ====================
+let pendingSurveyorFiles = [];
+
+function previewSurveyorFiles() {
+    pendingSurveyorFiles = Array.from(document.getElementById('surveyorFiles').files);
+    const preview = document.getElementById('previewList');
+    preview.innerHTML = '';
+    pendingSurveyorFiles.forEach(file => {
+        const div = document.createElement('div');
+        div.style.cssText = 'padding: 8px; border-bottom: 1px solid #e0e0e0;';
+        div.innerHTML = `<strong>${file.name}</strong> <span style="color: #757575;">(${(file.size/1024).toFixed(1)} KB)</span>`;
+        preview.appendChild(div);
+    });
+    document.getElementById('surveyorPreview').classList.remove('hidden');
+}
+
+async function importSurveyorFiles() {
+    if (!encryptionKey) { alert('Login first'); return; }
+    const results = document.getElementById('importResults');
+    results.classList.remove('hidden');
+    results.innerHTML = '<h4 style="margin-bottom: 10px;">Import Results:</h4>';
+
+    let totalNew = 0, duplicatesSkipped = 0;
+    const currentData = await getData();
+    const existingIds = new Set(currentData.map(e => e.id));
+
+    for (const file of pendingSurveyorFiles) {
+        try {
+            const text = await file.text();
+            const encrypted = JSON.parse(text);
+            const surveyorData = await decryptData(encrypted, SURVEYOR_KEY);
+            if (!surveyorData) { results.innerHTML += `<div style="color: #c62828;">❌ ${file.name}: Could not decrypt</div>`; continue; }
+
+            let fileNew = 0, fileDupes = 0;
+            surveyorData.forEach(entry => {
+                if (existingIds.has(entry.id)) { duplicatesSkipped++; fileDupes++; return; }
+                entry.importedAt = new Date().toISOString();
+                entry.originalSource = entry.source;
+                entry.source = 'surveyor-imported';
+                currentData.push(entry);
+                existingIds.add(entry.id);
+                fileNew++;
+            });
+            totalNew += fileNew;
+            results.innerHTML += `<div style="color: #2e7d32;">✅ ${file.name}: ${fileNew} new${fileDupes > 0 ? ` (${fileDupes} dupes skipped)` : ''}</div>`;
+        } catch (err) { results.innerHTML += `<div style="color: #c62828;">❌ ${file.name}: ${err.message}</div>`; }
+    }
+
+    await saveData(currentData);
+    updateSyncStatus('pending');
+    updateStats(); renderRecords();
+    results.innerHTML += `<div style="margin-top: 10px; font-weight: bold;">✅ New: ${totalNew} | ⏭️ Dupes skipped: ${duplicatesSkipped}</div>`;
+    pendingSurveyorFiles = [];
+    document.getElementById('surveyorFiles').value = '';
+    document.getElementById('surveyorPreview').classList.add('hidden');
+}
+
+// ==================== VIEW & DELETE ====================
+async function deleteEntry(id) {
+    if (!confirm('Delete this record?')) return;
+    const data = await getData();
+    await saveData(data.filter(e => e.id !== id));
+    updateStats(); renderRecords();
+}
+
+async function viewEntry(id) {
+    const data = await getData();
+    const entry = data.find(e => e.id === id);
+    if (!entry) return;
+
+    const sourceBadge = entry.source === 'surveyor-imported' ? '<span class="badge badge-green">From Surveyor</span>' : '<span class="badge badge-blue">Investigator</span>';
+    const exclusionBadges = (entry.exclusion_flags || []).map(f => `<span class="badge badge-red">${f}</span>`).join(' ');
+
+    document.getElementById('modalBody').innerHTML = `
+        <div class="form-grid">
+            <div><strong>Study ID:</strong> ${entry.study_id}</div><div><strong>Name:</strong> ${entry.patient_name || 'N/A'}</div>
+            <div><strong>Date:</strong> ${entry.collection_date}</div><div><strong>Age/Sex:</strong> ${entry.age_years || 'N/A'} / ${entry.sex || 'N/A'}</div>
+            <div><strong>BMI:</strong> ${entry.bmi || 'N/A'}</div><div><strong>Waist:</strong> ${entry.waist_cm || 'N/A'} cm</div>
+            <div><strong>Ethnicity:</strong> ${(entry.ethnicity || []).join(', ')}</div><div><strong>Diet:</strong> ${entry.diet_peas_chatpati || 'N/A'}</div>
+            <div><strong>DM:</strong> ${entry.dm_status || 'N/A'}</div><div><strong>HbA1c:</strong> ${entry.hba1c || 'N/A'}</div>
+            <div><strong>HTN:</strong> ${entry.htn_status || 'N/A'}</div><div><strong>Smoking:</strong> ${entry.smoking || 'N/A'}</div>
+            <div><strong>TC:</strong> ${entry.tc_mgdl || 'N/A'}</div><div><strong>TG:</strong> ${entry.tg_mgdl || 'N/A'}</div>
+            <div><strong>HDL:</strong> ${entry.hdl_mgdl || 'N/A'}</div><div><strong>LDL:</strong> ${entry.ldl_mgdl || 'N/A'}</div>
+            <div><strong>VLDL:</strong> ${entry.vldl_mgdl || 'N/A'}</div><div><strong>TC/HDL:</strong> ${entry.tc_hdl_ratio || 'N/A'}</div>
+            <div><strong>TSH:</strong> ${entry.tsh_miu_l || 'N/A'}</div><div><strong>FT4:</strong> ${entry.ft4_ngdl || 'N/A'}</div>
+            <div><strong>Modality:</strong> ${entry.img_modality || 'N/A'}</div><div><strong>Stone:</strong> ${entry.stone_number || 'N/A'} (${entry.max_stone_mm || 'N/A'} mm)</div>
+        </div>
+        <div style="margin-top: 15px;"><strong>Exclusions:</strong> ${exclusionBadges || 'None'}</div>
+        <div style="margin-top: 10px;"><strong>Thyroid USG:</strong><br>${entry.thyroid_usg || 'None'}</div>
+        <div style="margin-top: 15px;"><strong>Source:</strong> ${sourceBadge}</div>
+        <div style="margin-top: 5px; color: #757575; font-size: 0.85rem;"><strong>Entry Date:</strong> ${new Date(entry.entryDate).toLocaleString()}</div>
+        ${entry.importedAt ? `<div style="color: #757575; font-size: 0.85rem;"><strong>Imported:</strong> ${new Date(entry.importedAt).toLocaleString()}</div>` : ''}
+    `;
+    document.getElementById('viewModal').classList.add('active');
+}
+
+function closeModal() { document.getElementById('viewModal').classList.remove('active'); }
+
+// ==================== UI ====================
+function switchTab(tab) {
+    document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+    document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
+    event.currentTarget.classList.add('active');
+    document.getElementById(tab + 'Tab').classList.add('active');
+}
+
+function toggleDrivePanel() { document.getElementById('drivePanel').classList.toggle('hidden'); }
+
+function updateSyncStatus(status) {
+    const el = document.getElementById('syncStatus');
+    if (status === 'synced') { el.className = 'sync-status status-synced'; el.textContent = '● Synced to Drive'; }
+    else if (status === 'pending') { el.className = 'sync-status status-pending'; el.textContent = '● Unsaved Changes'; }
+    else { el.className = 'sync-status status-local'; el.textContent = '● Local Only'; }
+}
+
+async function updateStats() {
+    const data = await getData();
+    const now = new Date();
+    document.getElementById('totalRecords').textContent = data.length;
+    document.getElementById('femaleCount').textContent = data.filter(e => e.sex === 'female').length;
+    document.getElementById('maleCount').textContent = data.filter(e => e.sex === 'male').length;
+    const thisMonth = data.filter(e => {
+        if (!e.collection_date) return false;
+        const d = new Date(e.collection_date);
+        return d.getMonth() === now.getMonth() && d.getFullYear() === now.getFullYear();
+    });
+    document.getElementById('thisMonthCount').textContent = thisMonth.length;
+}
+
+async function renderRecords() {
+    const data = await getData();
+    const search = document.getElementById('searchRecords')?.value.toLowerCase() || '';
+    const filterSex = document.getElementById('filterSex')?.value || '';
+    let filtered = data;
+    if (search) filtered = filtered.filter(e => Object.values(e).some(v => String(v).toLowerCase().includes(search)));
+    if (filterSex) filtered = filtered.filter(e => e.sex === filterSex);
+
+    const tbody = document.getElementById('recordsBody');
+    tbody.innerHTML = '';
+    if (filtered.length === 0) { document.getElementById('noRecords').classList.remove('hidden'); return; }
+    document.getElementById('noRecords').classList.add('hidden');
+
+    filtered.sort((a, b) => new Date(b.entryDate) - new Date(a.entryDate));
+
+    filtered.forEach(entry => {
+        const sourceLabel = entry.source === 'surveyor-imported' ? '<span class="badge badge-green">Surveyor</span>' : '<span class="badge badge-blue">You</span>';
+        const hasExclusions = (entry.exclusion_flags || []).length > 0 ? '<span class="badge badge-red">⚠️</span>' : '<span class="badge badge-green">✓</span>';
+        const tr = document.createElement('tr');
+        tr.innerHTML = `<td>${entry.study_id}</td><td>${entry.patient_name || '-'}</td><td>${entry.age_years || '-'} / ${entry.sex || '-'}</td><td>${entry.collection_date || '-'}</td><td>${entry.bmi || '-'}</td><td>${entry.tc_hdl_ratio || '-'}</td><td>${entry.max_stone_mm || '-'} mm</td><td>${hasExclusions}</td><td>${sourceLabel}</td><td><button class="btn btn-primary" style="padding: 6px 12px; font-size: 0.85rem;" onclick="viewEntry('${entry.id}')">View</button> <button class="btn btn-danger" style="padding: 6px 12px; font-size: 0.85rem;" onclick="deleteEntry('${entry.id}')">Delete</button></td>`;
+        tbody.appendChild(tr);
+    });
+}
+
+// ==================== EXPORT ====================
+async function exportCSV() {
+    const data = await getData();
+    const filtered = filterByDateRange(data);
+    if (filtered.length === 0) { alert('No data'); return; }
+    const headers = ['Study ID','Patient Name','Collection Date','Age','Sex','BMI','Waist_cm','Ethnicity','Diet','DM','HbA1c','HTN','Smoking','Pack Years','RWL','Family Hx','TC','TG','HDL','LDL','VLDL','TC/HDL','TSH','FT4','Thyroid Status','Imaging','Stone Number','Max Size','CBD Dilated','Stone Composition','Exclusions','Source','Entry Date'];
+    const rows = filtered.map(e => [
+        e.study_id, e.patient_name || '', e.collection_date || '', e.age_years || '', e.sex || '', e.bmi || '', e.waist_cm || '',
+        (e.ethnicity || []).join(';'), e.diet_peas_chatpati || '', e.dm_status || '', e.hba1c || '', e.htn_status || '', e.smoking || '',
+        e.pack_years || '', e.rapid_weight_loss || '', e.fam_hx_gallstones || '', e.tc_mgdl || '', e.tg_mgdl || '', e.hdl_mgdl || '',
+        e.ldl_mgdl || '', e.vldl_mgdl || '', e.tc_hdl_ratio || '', e.tsh_miu_l || '', e.ft4_ngdl || '', e.thyroid_status || '',
+        e.img_modality || '', e.stone_number || '', e.max_stone_mm || '', e.cbd_dilated || '', e.stone_composition || '',
+        (e.exclusion_flags || []).join(';'), e.source, e.entryDate ? new Date(e.entryDate).toLocaleDateString() : ''
+    ]);
+    downloadFile([headers.join(','), ...rows.map(r => r.map(v => `"${String(v).replace(/"/g, '""')}"`).join(','))].join('\n'), 'cholelithiasis-study.csv', 'text/csv');
+}
+
+async function exportExcel() {
+    const data = await getData();
+    const filtered = filterByDateRange(data);
+    if (filtered.length === 0) { alert('No data'); return; }
+    const headers = ['Study ID','Patient Name','Collection Date','Age','Sex','BMI','Waist_cm','Ethnicity','Diet','DM','HbA1c','HTN','Smoking','Pack Years','RWL','Family Hx','TC','TG','HDL','LDL','VLDL','TC/HDL','TSH','FT4','Thyroid Status','Imaging','Stone Number','Max Size','CBD Dilated','Stone Composition','Exclusions','Source','Entry Date'];
+    let html = `<table><tr>${headers.map(h => `<th>${h}</th>`).join('')}</tr>`;
+    filtered.forEach(e => {
+        html += `<tr><td>${e.study_id}</td><td>${e.patient_name || ''}</td><td>${e.collection_date || ''}</td><td>${e.age_years || ''}</td><td>${e.sex || ''}</td><td>${e.bmi || ''}</td><td>${e.waist_cm || ''}</td><td>${(e.ethnicity || []).join(';')}</td><td>${e.diet_peas_chatpati || ''}</td><td>${e.dm_status || ''}</td><td>${e.hba1c || ''}</td><td>${e.htn_status || ''}</td><td>${e.smoking || ''}</td><td>${e.pack_years || ''}</td><td>${e.rapid_weight_loss || ''}</td><td>${e.fam_hx_gallstones || ''}</td><td>${e.tc_mgdl || ''}</td><td>${e.tg_mgdl || ''}</td><td>${e.hdl_mgdl || ''}</td><td>${e.ldl_mgdl || ''}</td><td>${e.vldl_mgdl || ''}</td><td>${e.tc_hdl_ratio || ''}</td><td>${e.tsh_miu_l || ''}</td><td>${e.ft4_ngdl || ''}</td><td>${e.thyroid_status || ''}</td><td>${e.img_modality || ''}</td><td>${e.stone_number || ''}</td><td>${e.max_stone_mm || ''}</td><td>${e.cbd_dilated || ''}</td><td>${e.stone_composition || ''}</td><td>${(e.exclusion_flags || []).join(';')}</td><td>${e.source}</td><td>${e.entryDate ? new Date(e.entryDate).toLocaleDateString() : ''}</td></tr>`;
+    });
+    html += '</table>';
+    const blob = new Blob([html], { type: 'application/vnd.ms-excel' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a'); a.href = url; a.download = 'cholelithiasis-study.xls'; a.click(); URL.revokeObjectURL(url);
+}
+
+async function exportJSON() {
+    const data = await getData();
+    const encrypted = await encryptData(data, encryptionKey);
+    downloadFile(JSON.stringify(encrypted, null, 2), 'cholelithiasis-study-backup.json', 'application/json');
+}
+
+function filterByDateRange(data) {
+    const from = document.getElementById('exportFrom').value;
+    const to = document.getElementById('exportTo').value;
+    return data.filter(e => {
+        if (!e.collection_date) return false;
+        const dStr = e.collection_date;
+        if (from && dStr < from) return false;
+        if (to && dStr > to) return false;
+        return true;
+    });
+}
+
+function downloadFile(content, filename, type) {
+    const blob = new Blob([content], { type });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a'); a.href = url; a.download = filename; a.click(); URL.revokeObjectURL(url);
+}
+
+// ==================== SETTINGS ====================
+async function changeKey() {
+    const newKey = document.getElementById('newKey').value;
+    if (!newKey || newKey.length < 8) { alert('Key must be at least 8 characters'); return; }
+    const data = await getData();
+    encryptionKey = newKey;
+    await storeKeyHash(newKey);
+    await saveData(data);
+    document.getElementById('currentKeyDisplay').textContent = newKey.substring(0, 4) + '****' + newKey.substring(newKey.length - 4);
+    alert('✅ Key changed and all data re-encrypted!');
+    document.getElementById('newKey').value = '';
+}
+
+async function clearAllData() {
+    if (!confirm('⚠️ Permanently delete ALL records?')) return;
+    localStorage.removeItem(STORAGE_KEY);
+    localStorage.removeItem(KEY_STORAGE);
+    alert('All data cleared.');
+    updateStats(); renderRecords();
+}
+
+// ==================== INIT ====================
+document.getElementById('viewModal').addEventListener('click', function(e) { if (e.target === this) closeModal(); });
+
+window.addEventListener('DOMContentLoaded', () => {
+    checkSurveyorMode();
+    document.addEventListener('change', function(e) {
+        if (e.target.type === 'checkbox') {
+            e.target.closest('.checkbox-item')?.classList.toggle('checked', e.target.checked);
+        }
+    });
+});
 </script>
 </body>
 </html>
