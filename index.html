@@ -329,6 +329,66 @@
                     </div>
 
                     <div class="card fade-in">
+                        <div class="card-title"><span class="icon">🩺</span> Gallstone Symptoms</div>
+                        <div class="form-group">
+                            <label>Symptom Status <span class="required">*</span></label>
+                            <select id="sv_symptom_status" required onchange="sv_toggleSymptoms()">
+                                <option value="">Select...</option>
+                                <option value="asymptomatic">Asymptomatic (Incidental Finding)</option>
+                                <option value="symptomatic">Symptomatic</option>
+                            </select>
+                        </div>
+                        <div id="sv_symptoms_details" style="display:none;">
+                            <p style="font-size:0.9rem;color:#555;margin-bottom:12px;">Check all presenting symptoms:</p>
+                            <div class="checkbox-group" id="sv_symptom_flags">
+                                <label class="checkbox-item"><input type="checkbox" value="biliary_colic"> Biliary Colic</label>
+                                <label class="checkbox-item"><input type="checkbox" value="ruq_pain"> Right Upper Quadrant Pain</label>
+                                <label class="checkbox-item"><input type="checkbox" value="nausea"> Nausea</label>
+                                <label class="checkbox-item"><input type="checkbox" value="vomiting"> Vomiting</label>
+                                <label class="checkbox-item"><input type="checkbox" value="fever"> Fever</label>
+                                <label class="checkbox-item"><input type="checkbox" value="jaundice"> Jaundice</label>
+                                <label class="checkbox-item"><input type="checkbox" value="pruritus"> Pruritus (Itching)</label>
+                                <label class="checkbox-item"><input type="checkbox" value="dark_urine"> Dark Urine</label>
+                                <label class="checkbox-item"><input type="checkbox" value="pale_stools"> Pale Stools</label>
+                                <label class="checkbox-item"><input type="checkbox" value="shoulder_pain"> Shoulder Pain (Referred)</label>
+                                <label class="checkbox-item"><input type="checkbox" value="bloating"> Bloating / Dyspepsia</label>
+                                <label class="checkbox-item"><input type="checkbox" value="fat_intolerance"> Fat Intolerance</label>
+                                <label class="checkbox-item"><input type="checkbox" value="postprandial_pain"> Postprandial Pain</label>
+                                <label class="checkbox-item"><input type="checkbox" value="nocturnal_pain"> Nocturnal Pain</label>
+                                <label class="checkbox-item"><input type="checkbox" value="murphy_sign"> Murphy's Sign Positive</label>
+                                <label class="checkbox-item"><input type="checkbox" value="boas_sign"> Boas' Sign</label>
+                            </div>
+                            <div class="form-grid" style="margin-top:12px;">
+                                <div class="form-group">
+                                    <label>Duration of Symptoms</label>
+                                    <select id="sv_symptom_duration">
+                                        <option value="">Select...</option>
+                                        <option value="lt_1_week">&lt; 1 week</option>
+                                        <option value="1_4_weeks">1–4 weeks</option>
+                                        <option value="1_6_months">1–6 months</option>
+                                        <option value="6_12_months">6–12 months</option>
+                                        <option value="gt_1_year">&gt; 1 year</option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label>Previous Episodes</label>
+                                    <select id="sv_previous_episodes">
+                                        <option value="">Select...</option>
+                                        <option value="0">None</option>
+                                        <option value="1_3">1–3 episodes</option>
+                                        <option value="4_10">4–10 episodes</option>
+                                        <option value="gt_10">&gt; 10 episodes</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label>Other / Additional Symptoms</label>
+                                <textarea id="sv_other_symptoms" rows="2" placeholder="Describe any other symptoms not listed above..."></textarea>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card fade-in">
                         <div class="card-title"><span class="icon">🩸</span> Lipid Profile</div>
                         <div class="form-grid">
                             <div class="form-group">
@@ -654,6 +714,66 @@
                         </div>
 
                         <div class="card" style="margin-bottom:16px;">
+                            <div class="card-title"><span class="icon">🩺</span> Gallstone Symptoms</div>
+                            <div class="form-group">
+                                <label>Symptom Status <span class="required">*</span></label>
+                                <select id="iv_symptom_status" required onchange="iv_toggleSymptoms()">
+                                    <option value="">Select...</option>
+                                    <option value="asymptomatic">Asymptomatic (Incidental Finding)</option>
+                                    <option value="symptomatic">Symptomatic</option>
+                                </select>
+                            </div>
+                            <div id="iv_symptoms_details" style="display:none;">
+                                <p style="font-size:0.9rem;color:#555;margin-bottom:12px;">Check all presenting symptoms:</p>
+                                <div class="checkbox-group" id="iv_symptom_flags">
+                                    <label class="checkbox-item"><input type="checkbox" value="biliary_colic"> Biliary Colic</label>
+                                    <label class="checkbox-item"><input type="checkbox" value="ruq_pain"> Right Upper Quadrant Pain</label>
+                                    <label class="checkbox-item"><input type="checkbox" value="nausea"> Nausea</label>
+                                    <label class="checkbox-item"><input type="checkbox" value="vomiting"> Vomiting</label>
+                                    <label class="checkbox-item"><input type="checkbox" value="fever"> Fever</label>
+                                    <label class="checkbox-item"><input type="checkbox" value="jaundice"> Jaundice</label>
+                                    <label class="checkbox-item"><input type="checkbox" value="pruritus"> Pruritus (Itching)</label>
+                                    <label class="checkbox-item"><input type="checkbox" value="dark_urine"> Dark Urine</label>
+                                    <label class="checkbox-item"><input type="checkbox" value="pale_stools"> Pale Stools</label>
+                                    <label class="checkbox-item"><input type="checkbox" value="shoulder_pain"> Shoulder Pain (Referred)</label>
+                                    <label class="checkbox-item"><input type="checkbox" value="bloating"> Bloating / Dyspepsia</label>
+                                    <label class="checkbox-item"><input type="checkbox" value="fat_intolerance"> Fat Intolerance</label>
+                                    <label class="checkbox-item"><input type="checkbox" value="postprandial_pain"> Postprandial Pain</label>
+                                    <label class="checkbox-item"><input type="checkbox" value="nocturnal_pain"> Nocturnal Pain</label>
+                                    <label class="checkbox-item"><input type="checkbox" value="murphy_sign"> Murphy's Sign Positive</label>
+                                    <label class="checkbox-item"><input type="checkbox" value="boas_sign"> Boas' Sign</label>
+                                </div>
+                                <div class="form-grid" style="margin-top:12px;">
+                                    <div class="form-group">
+                                        <label>Duration of Symptoms</label>
+                                        <select id="iv_symptom_duration">
+                                            <option value="">Select...</option>
+                                            <option value="lt_1_week">&lt; 1 week</option>
+                                            <option value="1_4_weeks">1–4 weeks</option>
+                                            <option value="1_6_months">1–6 months</option>
+                                            <option value="6_12_months">6–12 months</option>
+                                            <option value="gt_1_year">&gt; 1 year</option>
+                                        </select>
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Previous Episodes</label>
+                                        <select id="iv_previous_episodes">
+                                            <option value="">Select...</option>
+                                            <option value="0">None</option>
+                                            <option value="1_3">1–3 episodes</option>
+                                            <option value="4_10">4–10 episodes</option>
+                                            <option value="gt_10">&gt; 10 episodes</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label>Other / Additional Symptoms</label>
+                                    <textarea id="iv_other_symptoms" rows="2" placeholder="Describe any other symptoms not listed above..."></textarea>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="card" style="margin-bottom:16px;">
                             <div class="card-title"><span class="icon">🩸</span> Lipid Profile</div>
                             <div class="form-grid">
                                 <div class="form-group"><label>Fasting Verified <span class="required">*</span></label><select id="iv_fasting_verified" required><option value="">Select...</option><option value="yes">Yes</option><option value="no">No</option></select></div>
@@ -737,7 +857,7 @@
                     <div style="overflow-x: auto;">
                         <table id="recordsTable">
                             <thead>
-                                <tr><th>Study ID</th><th>Name</th><th>Age/Sex</th><th>Date</th><th>BMI</th><th>TC/HDL</th><th>Stone Size</th><th>Exclusions</th><th>Source</th><th>Actions</th></tr>
+                                <tr><th>Study ID</th><th>Name</th><th>Age/Sex</th><th>Date</th><th>Symptoms</th><th>BMI</th><th>TC/HDL</th><th>Stone Size</th><th>Exclusions</th><th>Source</th><th>Actions</th></tr>
                             </thead>
                             <tbody id="recordsBody"></tbody>
                         </table>
@@ -849,7 +969,7 @@
 <script>
 // ==================== APPS SCRIPT CONFIG ====================
 // REPLACE THIS WITH YOUR DEPLOYED GOOGLE APPS SCRIPT WEB APP URL
-const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxRJY3GzwnDUj_aSXxE53bHeSmgRpZgiPp2nFWGzoSOQlErUW7JKIA26k1rZ6sMOd9S-A/exec';
+const APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbx8vAMDuHdwh0UawCAjYo5FFECENr3IbfcRpbg_zLIEleLitJx64loPqbk3D-eU8yuKtg/exec';
 const INVESTIGATOR_PASSWORD = 'ChangeThisToYourSecretPassword123';
 const SURVEYOR_SECRET = 'SURVEYOR_SUBMIT_2024_CLS';
 
@@ -1065,6 +1185,16 @@ function iv_toggleOtherEthnicity() {
     document.getElementById('iv_ethnicity_other_field').style.display = document.getElementById('iv_ethnicity_other_checkbox').checked ? 'block' : 'none';
 }
 
+function sv_toggleSymptoms() {
+    const status = document.getElementById('sv_symptom_status').value;
+    document.getElementById('sv_symptoms_details').style.display = status === 'symptomatic' ? 'block' : 'none';
+}
+
+function iv_toggleSymptoms() {
+    const status = document.getElementById('iv_symptom_status').value;
+    document.getElementById('iv_symptoms_details').style.display = status === 'symptomatic' ? 'block' : 'none';
+}
+
 // ==================== FORM HELPERS ====================
 function getCheckboxValues(containerId) {
     return Array.from(document.querySelectorAll('#' + containerId + ' input:checked')).map(cb => cb.value);
@@ -1132,6 +1262,11 @@ function buildFormData(prefix) {
         ] : [],
         reviewer_signature: prefix === 'iv' ? document.getElementById('iv_reviewer_signature').value : '',
         review_timestamp: prefix === 'iv' ? document.getElementById('iv_review_timestamp').value : '',
+        symptom_status: document.getElementById(prefix + '_symptom_status').value,
+        symptoms: getCheckboxValues(prefix + '_symptom_flags'),
+        symptom_duration: document.getElementById(prefix + '_symptom_duration')?.value || '',
+        previous_episodes: document.getElementById(prefix + '_previous_episodes')?.value || '',
+        other_symptoms: document.getElementById(prefix + '_other_symptoms')?.value || '',
         entryDate: new Date().toISOString(),
         id: 'cls-' + Date.now() + '-' + Math.random().toString(36).substr(2, 9),
         source: prefix === 'iv' ? 'investigator' : 'surveyor'
@@ -1149,7 +1284,7 @@ async function surveyorSubmit(shouldClear) {
     const required = ['sv_study_id', 'sv_patient_name', 'sv_collection_date', 'sv_age_years', 'sv_sex', 
                       'sv_height_cm', 'sv_weight_kg', 'sv_fasting_verified', 'sv_tc_mgdl', 'sv_tg_mgdl', 
                       'sv_hdl_mgdl', 'sv_ldl_mgdl', 'sv_img_modality', 'sv_stone_number', 'sv_max_stone_mm',
-                      'sv_diet_peas_chatpati'];
+                      'sv_diet_peas_chatpati', 'sv_symptom_status'];
     for (const id of required) {
         const el = document.getElementById(id);
         if (!el || !el.value.trim()) {
@@ -1227,7 +1362,7 @@ async function saveInvestigatorEntry(e) {
     const required = ['iv_study_id', 'iv_patient_name', 'iv_collection_date', 'iv_age_years', 'iv_sex', 
                       'iv_height_cm', 'iv_weight_kg', 'iv_fasting_verified', 'iv_tc_mgdl', 'iv_tg_mgdl', 
                       'iv_hdl_mgdl', 'iv_ldl_mgdl', 'iv_img_modality', 'iv_stone_number', 'iv_max_stone_mm',
-                      'iv_diet_peas_chatpati'];
+                      'iv_diet_peas_chatpati', 'iv_symptom_status'];
     for (const id of required) {
         const el = document.getElementById(id);
         if (!el || !el.value.trim()) {
@@ -1476,6 +1611,7 @@ async function viewEntry(id) {
 
     const sourceBadge = entry.source === 'surveyor-imported' ? '<span class="badge badge-green">From Surveyor</span>' : '<span class="badge badge-blue">Investigator</span>';
     const exclusionBadges = (entry.exclusion_flags || []).map(f => `<span class="badge badge-red">${f}</span>`).join(' ');
+    const symptomBadges = (entry.symptoms || []).map(s => `<span class="badge badge-orange">${s.replace(/_/g, ' ')}</span>`).join(' ');
 
     document.getElementById('modalBody').innerHTML = `
         <div class="form-grid">
@@ -1491,6 +1627,8 @@ async function viewEntry(id) {
             <div><strong>TSH:</strong> ${entry.tsh_miu_l || 'N/A'}</div><div><strong>FT4:</strong> ${entry.ft4_ngdl || 'N/A'}</div>
             <div><strong>Modality:</strong> ${entry.img_modality || 'N/A'}</div><div><strong>Stone:</strong> ${entry.stone_number || 'N/A'} (${entry.max_stone_mm || 'N/A'} mm)</div>
         </div>
+        <div style="margin-top: 15px;"><strong>Symptom Status:</strong> <span class="badge badge-${entry.symptom_status === 'asymptomatic' ? 'green' : 'orange'}">${entry.symptom_status || 'N/A'}</span></div>
+        ${entry.symptom_status === 'symptomatic' ? `<div style="margin-top: 8px;"><strong>Symptoms:</strong> ${symptomBadges || 'None'}</div><div style="margin-top: 5px; color: #757575; font-size: 0.85rem;"><strong>Duration:</strong> ${entry.symptom_duration || 'N/A'} | <strong>Previous Episodes:</strong> ${entry.previous_episodes || 'N/A'}</div>` : ''}
         <div style="margin-top: 15px;"><strong>Exclusions:</strong> ${exclusionBadges || 'None'}</div>
         <div style="margin-top: 10px;"><strong>Thyroid USG:</strong><br>${entry.thyroid_usg || 'None'}</div>
         <div style="margin-top: 15px;"><strong>Source:</strong> ${sourceBadge}</div>
@@ -1551,8 +1689,9 @@ async function renderRecords() {
     filtered.forEach(entry => {
         const sourceLabel = entry.source === 'surveyor-imported' ? '<span class="badge badge-green">Surveyor</span>' : '<span class="badge badge-blue">You</span>';
         const hasExclusions = (entry.exclusion_flags || []).length > 0 ? '<span class="badge badge-red">⚠️</span>' : '<span class="badge badge-green">✓</span>';
+        const symptomLabel = entry.symptom_status === 'asymptomatic' ? '<span class="badge badge-green">Asx</span>' : (entry.symptoms || []).length > 0 ? '<span class="badge badge-orange">Sx</span>' : '<span class="badge badge-blue">-</span>';
         const tr = document.createElement('tr');
-        tr.innerHTML = `<td>${entry.study_id}</td><td>${entry.patient_name || '-'}</td><td>${entry.age_years || '-'} / ${entry.sex || '-'}</td><td>${entry.collection_date || '-'}</td><td>${entry.bmi || '-'}</td><td>${entry.tc_hdl_ratio || '-'}</td><td>${entry.max_stone_mm || '-'} mm</td><td>${hasExclusions}</td><td>${sourceLabel}</td><td><button class="btn btn-primary" style="padding: 6px 12px; font-size: 0.85rem;" onclick="viewEntry('${entry.id}')">View</button> <button class="btn btn-danger" style="padding: 6px 12px; font-size: 0.85rem;" onclick="deleteEntry('${entry.id}')">Delete</button></td>`;
+        tr.innerHTML = `<td>${entry.study_id}</td><td>${entry.patient_name || '-'}</td><td>${entry.age_years || '-'} / ${entry.sex || '-'}</td><td>${entry.collection_date || '-'}</td><td>${symptomLabel}</td><td>${entry.bmi || '-'}</td><td>${entry.tc_hdl_ratio || '-'}</td><td>${entry.max_stone_mm || '-'} mm</td><td>${hasExclusions}</td><td>${sourceLabel}</td><td><button class="btn btn-primary" style="padding: 6px 12px; font-size: 0.85rem;" onclick="viewEntry('${entry.id}')">View</button> <button class="btn btn-danger" style="padding: 6px 12px; font-size: 0.85rem;" onclick="deleteEntry('${entry.id}')">Delete</button></td>`;
         tbody.appendChild(tr);
     });
 }
@@ -1562,11 +1701,12 @@ async function exportCSV() {
     const data = await getData();
     const filtered = filterByDateRange(data);
     if (filtered.length === 0) { alert('No data'); return; }
-    const headers = ['Study ID','Patient Name','Collection Date','Age','Sex','BMI','Waist_cm','Ethnicity','Diet','DM','HbA1c','HTN','Smoking','Pack Years','RWL','Family Hx','TC','TG','HDL','LDL','VLDL','TC/HDL','TSH','FT4','Thyroid Status','Imaging','Stone Number','Max Size','CBD Dilated','Stone Composition','Exclusions','Source','Entry Date'];
+    const headers = ['Study ID','Patient Name','Collection Date','Age','Sex','BMI','Waist_cm','Ethnicity','Diet','DM','HbA1c','HTN','Smoking','Pack Years','RWL','Family Hx','Symptom Status','Symptoms','Symptom Duration','Previous Episodes','Other Symptoms','TC','TG','HDL','LDL','VLDL','TC/HDL','TSH','FT4','Thyroid Status','Imaging','Stone Number','Max Size','CBD Dilated','Stone Composition','Exclusions','Source','Entry Date'];
     const rows = filtered.map(e => [
         e.study_id, e.patient_name || '', e.collection_date || '', e.age_years || '', e.sex || '', e.bmi || '', e.waist_cm || '',
         (e.ethnicity || []).join(';'), e.diet_peas_chatpati || '', e.dm_status || '', e.hba1c || '', e.htn_status || '', e.smoking || '',
-        e.pack_years || '', e.rapid_weight_loss || '', e.fam_hx_gallstones || '', e.tc_mgdl || '', e.tg_mgdl || '', e.hdl_mgdl || '',
+        e.pack_years || '', e.rapid_weight_loss || '', e.fam_hx_gallstones || '', e.symptom_status || '', (e.symptoms || []).join(';'),
+        e.symptom_duration || '', e.previous_episodes || '', e.other_symptoms || '', e.tc_mgdl || '', e.tg_mgdl || '', e.hdl_mgdl || '',
         e.ldl_mgdl || '', e.vldl_mgdl || '', e.tc_hdl_ratio || '', e.tsh_miu_l || '', e.ft4_ngdl || '', e.thyroid_status || '',
         e.img_modality || '', e.stone_number || '', e.max_stone_mm || '', e.cbd_dilated || '', e.stone_composition || '',
         (e.exclusion_flags || []).join(';'), e.source, e.entryDate ? new Date(e.entryDate).toLocaleDateString() : ''
@@ -1578,7 +1718,7 @@ async function exportExcel() {
     const data = await getData();
     const filtered = filterByDateRange(data);
     if (filtered.length === 0) { alert('No data'); return; }
-    const headers = ['Study ID','Patient Name','Collection Date','Age','Sex','BMI','Waist_cm','Ethnicity','Diet','DM','HbA1c','HTN','Smoking','Pack Years','RWL','Family Hx','TC','TG','HDL','LDL','VLDL','TC/HDL','TSH','FT4','Thyroid Status','Imaging','Stone Number','Max Size','CBD Dilated','Stone Composition','Exclusions','Source','Entry Date'];
+    const headers = ['Study ID','Patient Name','Collection Date','Age','Sex','BMI','Waist_cm','Ethnicity','Diet','DM','HbA1c','HTN','Smoking','Pack Years','RWL','Family Hx','Symptom Status','Symptoms','Symptom Duration','Previous Episodes','Other Symptoms','TC','TG','HDL','LDL','VLDL','TC/HDL','TSH','FT4','Thyroid Status','Imaging','Stone Number','Max Size','CBD Dilated','Stone Composition','Exclusions','Source','Entry Date'];
     let html = `<table><tr>${headers.map(h => `<th>${h}</th>`).join('')}</tr>`;
     filtered.forEach(e => {
         html += `<tr><td>${e.study_id}</td><td>${e.patient_name || ''}</td><td>${e.collection_date || ''}</td><td>${e.age_years || ''}</td><td>${e.sex || ''}</td><td>${e.bmi || ''}</td><td>${e.waist_cm || ''}</td><td>${(e.ethnicity || []).join(';')}</td><td>${e.diet_peas_chatpati || ''}</td><td>${e.dm_status || ''}</td><td>${e.hba1c || ''}</td><td>${e.htn_status || ''}</td><td>${e.smoking || ''}</td><td>${e.pack_years || ''}</td><td>${e.rapid_weight_loss || ''}</td><td>${e.fam_hx_gallstones || ''}</td><td>${e.tc_mgdl || ''}</td><td>${e.tg_mgdl || ''}</td><td>${e.hdl_mgdl || ''}</td><td>${e.ldl_mgdl || ''}</td><td>${e.vldl_mgdl || ''}</td><td>${e.tc_hdl_ratio || ''}</td><td>${e.tsh_miu_l || ''}</td><td>${e.ft4_ngdl || ''}</td><td>${e.thyroid_status || ''}</td><td>${e.img_modality || ''}</td><td>${e.stone_number || ''}</td><td>${e.max_stone_mm || ''}</td><td>${e.cbd_dilated || ''}</td><td>${e.stone_composition || ''}</td><td>${(e.exclusion_flags || []).join(';')}</td><td>${e.source}</td><td>${e.entryDate ? new Date(e.entryDate).toLocaleDateString() : ''}</td></tr>`;
